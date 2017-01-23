@@ -1,0 +1,4 @@
+#ifndef OCTREEPOINT_H
+#define OCTREEPOINT_H
+
+#endif // OCTREEPOINT_H

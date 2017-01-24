@@ -1,4 +1,5 @@
 #include "Obstacle.h"
+#include <iostream>
 
 Obstacle::Obstacle(ngl::Vec3 _position, float _size, std::string _shape)
 {

@@ -58,8 +58,16 @@ void World::addBoid(float _cohesionWeight, float _separationWeight, float _align
 
 void World::addObstacle(std::string _obstacleShape)
 {
-    Obstacle obstacle(ngl::Random::instance()->getRandomVec3() * 100, 10, _obstacleShape);
+    Obstacle obstacle(ngl::Random::instance()->getRandomVec3() * 100, 40.0f, _obstacleShape);
     m_obstacles.push_back(obstacle);
+}
+
+void World::updateObstacleSize(float _size)
+{
+    for (auto obstacle: m_obstacles)
+    {
+        obstacle.setSize(_size * 10);
+    }
 }
 
 void World::removeBoid()

@@ -23,7 +23,9 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -34,31 +36,44 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QPushButton *m_quit;
+    QTabWidget *tabWidget;
+    QWidget *tab_1;
+    QWidget *layoutWidget;
     QGridLayout *gridLayout_3;
-    QHBoxLayout *horizontalLayout_2;
-    QLabel *label_2;
-    QSlider *m_force;
-    QLabel *maxForceLabel;
-    QPushButton *m_addObstacle;
     QCheckBox *m_leader;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *label_3;
-    QSlider *m_viewRadius;
-    QLabel *viewRadiusLabel;
-    QPushButton *m_removeObstacle;
-    QPushButton *m_removePredator;
-    QPushButton *m_addPredator;
-    QPushButton *m_addBoid;
-    QComboBox *m_obstacleType;
+    QPushButton *m_removeBoid;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QSlider *m_velocity;
     QLabel *maxVelLabel;
-    QPushButton *m_removeBoid;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label_2;
+    QSlider *m_force;
+    QLabel *maxForceLabel;
+    QPushButton *m_removePredator;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_3;
+    QSlider *m_viewRadius;
+    QLabel *viewRadiusLabel;
+    QPushButton *m_addBoid;
+    QPushButton *m_addPredator;
     QPushButton *m_newFlock;
+    QSpinBox *m_newFlockBoidCount;
+    QLabel *label_4;
+    QLabel *m_boidCountStatus;
+    QWidget *tab_2;
+    QWidget *gridLayoutWidget;
+    QGridLayout *gridLayout_2;
+    QComboBox *m_obstacleType;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *m_addObstacle;
+    QPushButton *m_removeObstacle;
+    QHBoxLayout *horizontalLayout_7;
+    QLabel *label_6;
+    QSlider *m_obstacleSize;
+    QLabel *m_obstacleSizeText;
+    QPushButton *m_quit;
     QSpacerItem *horizontalSpacer;
-    QSpacerItem *verticalSpacer;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -74,137 +89,51 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        m_quit = new QPushButton(centralWidget);
-        m_quit->setObjectName(QStringLiteral("m_quit"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(m_quit->sizePolicy().hasHeightForWidth());
-        m_quit->setSizePolicy(sizePolicy);
-        m_quit->setMinimumSize(QSize(0, 40));
-
-        gridLayout->addWidget(m_quit, 2, 1, 1, 1);
-
-        gridLayout_3 = new QGridLayout();
+        sizePolicy.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
+        tabWidget->setSizePolicy(sizePolicy);
+        tabWidget->setMinimumSize(QSize(250, 0));
+        tab_1 = new QWidget();
+        tab_1->setObjectName(QStringLiteral("tab_1"));
+        layoutWidget = new QWidget(tab_1);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 10, 231, 416));
+        gridLayout_3 = new QGridLayout(layoutWidget);
         gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        label_2 = new QLabel(centralWidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setMinimumSize(QSize(0, 40));
-
-        horizontalLayout_2->addWidget(label_2);
-
-        m_force = new QSlider(centralWidget);
-        m_force->setObjectName(QStringLiteral("m_force"));
-        m_force->setMinimumSize(QSize(120, 40));
-        m_force->setMinimum(1);
-        m_force->setMaximum(10);
-        m_force->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_2->addWidget(m_force);
-
-        maxForceLabel = new QLabel(centralWidget);
-        maxForceLabel->setObjectName(QStringLiteral("maxForceLabel"));
-
-        horizontalLayout_2->addWidget(maxForceLabel);
-
-
-        gridLayout_3->addLayout(horizontalLayout_2, 2, 0, 1, 2);
-
-        m_addObstacle = new QPushButton(centralWidget);
-        m_addObstacle->setObjectName(QStringLiteral("m_addObstacle"));
-        sizePolicy.setHeightForWidth(m_addObstacle->sizePolicy().hasHeightForWidth());
-        m_addObstacle->setSizePolicy(sizePolicy);
-        m_addObstacle->setMinimumSize(QSize(0, 40));
-
-        gridLayout_3->addWidget(m_addObstacle, 9, 0, 1, 1);
-
-        m_leader = new QCheckBox(centralWidget);
+        gridLayout_3->setContentsMargins(0, 0, 0, 0);
+        m_leader = new QCheckBox(layoutWidget);
         m_leader->setObjectName(QStringLiteral("m_leader"));
         m_leader->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_leader, 12, 0, 1, 2);
+        gridLayout_3->addWidget(m_leader, 10, 0, 1, 2);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        label_3 = new QLabel(centralWidget);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setMinimumSize(QSize(0, 40));
+        m_removeBoid = new QPushButton(layoutWidget);
+        m_removeBoid->setObjectName(QStringLiteral("m_removeBoid"));
+        m_removeBoid->setMinimumSize(QSize(0, 40));
 
-        horizontalLayout_3->addWidget(label_3);
-
-        m_viewRadius = new QSlider(centralWidget);
-        m_viewRadius->setObjectName(QStringLiteral("m_viewRadius"));
-        m_viewRadius->setMinimumSize(QSize(120, 40));
-        m_viewRadius->setMaximum(100);
-        m_viewRadius->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_3->addWidget(m_viewRadius);
-
-        viewRadiusLabel = new QLabel(centralWidget);
-        viewRadiusLabel->setObjectName(QStringLiteral("viewRadiusLabel"));
-
-        horizontalLayout_3->addWidget(viewRadiusLabel);
-
-
-        gridLayout_3->addLayout(horizontalLayout_3, 1, 0, 1, 2);
-
-        m_removeObstacle = new QPushButton(centralWidget);
-        m_removeObstacle->setObjectName(QStringLiteral("m_removeObstacle"));
-        m_removeObstacle->setMinimumSize(QSize(0, 40));
-
-        gridLayout_3->addWidget(m_removeObstacle, 9, 1, 1, 1);
-
-        m_removePredator = new QPushButton(centralWidget);
-        m_removePredator->setObjectName(QStringLiteral("m_removePredator"));
-        m_removePredator->setMinimumSize(QSize(0, 40));
-
-        gridLayout_3->addWidget(m_removePredator, 6, 1, 1, 1);
-
-        m_addPredator = new QPushButton(centralWidget);
-        m_addPredator->setObjectName(QStringLiteral("m_addPredator"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(m_addPredator->sizePolicy().hasHeightForWidth());
-        m_addPredator->setSizePolicy(sizePolicy1);
-        m_addPredator->setMinimumSize(QSize(0, 40));
-
-        gridLayout_3->addWidget(m_addPredator, 6, 0, 1, 1);
-
-        m_addBoid = new QPushButton(centralWidget);
-        m_addBoid->setObjectName(QStringLiteral("m_addBoid"));
-        sizePolicy.setHeightForWidth(m_addBoid->sizePolicy().hasHeightForWidth());
-        m_addBoid->setSizePolicy(sizePolicy);
-        m_addBoid->setMinimumSize(QSize(0, 40));
-
-        gridLayout_3->addWidget(m_addBoid, 5, 0, 1, 1);
-
-        m_obstacleType = new QComboBox(centralWidget);
-        m_obstacleType->setObjectName(QStringLiteral("m_obstacleType"));
-        m_obstacleType->setMinimumSize(QSize(0, 40));
-
-        gridLayout_3->addWidget(m_obstacleType, 8, 0, 1, 2);
+        gridLayout_3->addWidget(m_removeBoid, 5, 1, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        label = new QLabel(centralWidget);
+        label = new QLabel(layoutWidget);
         label->setObjectName(QStringLiteral("label"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy1);
         label->setMinimumSize(QSize(0, 40));
 
         horizontalLayout->addWidget(label);
 
-        m_velocity = new QSlider(centralWidget);
+        m_velocity = new QSlider(layoutWidget);
         m_velocity->setObjectName(QStringLiteral("m_velocity"));
         m_velocity->setMinimumSize(QSize(120, 40));
         m_velocity->setMinimum(1);
@@ -213,7 +142,7 @@ public:
 
         horizontalLayout->addWidget(m_velocity);
 
-        maxVelLabel = new QLabel(centralWidget);
+        maxVelLabel = new QLabel(layoutWidget);
         maxVelLabel->setObjectName(QStringLiteral("maxVelLabel"));
 
         horizontalLayout->addWidget(maxVelLabel);
@@ -221,28 +150,187 @@ public:
 
         gridLayout_3->addLayout(horizontalLayout, 3, 0, 1, 2);
 
-        m_removeBoid = new QPushButton(centralWidget);
-        m_removeBoid->setObjectName(QStringLiteral("m_removeBoid"));
-        m_removeBoid->setMinimumSize(QSize(0, 40));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        label_2 = new QLabel(layoutWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_removeBoid, 5, 1, 1, 1);
+        horizontalLayout_2->addWidget(label_2);
 
-        m_newFlock = new QPushButton(centralWidget);
+        m_force = new QSlider(layoutWidget);
+        m_force->setObjectName(QStringLiteral("m_force"));
+        m_force->setMinimumSize(QSize(120, 40));
+        m_force->setMinimum(1);
+        m_force->setMaximum(10);
+        m_force->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_2->addWidget(m_force);
+
+        maxForceLabel = new QLabel(layoutWidget);
+        maxForceLabel->setObjectName(QStringLiteral("maxForceLabel"));
+
+        horizontalLayout_2->addWidget(maxForceLabel);
+
+
+        gridLayout_3->addLayout(horizontalLayout_2, 2, 0, 1, 2);
+
+        m_removePredator = new QPushButton(layoutWidget);
+        m_removePredator->setObjectName(QStringLiteral("m_removePredator"));
+        m_removePredator->setMinimumSize(QSize(0, 40));
+
+        gridLayout_3->addWidget(m_removePredator, 6, 1, 1, 1);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        label_3 = new QLabel(layoutWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setMinimumSize(QSize(0, 40));
+
+        horizontalLayout_3->addWidget(label_3);
+
+        m_viewRadius = new QSlider(layoutWidget);
+        m_viewRadius->setObjectName(QStringLiteral("m_viewRadius"));
+        m_viewRadius->setMinimumSize(QSize(120, 40));
+        m_viewRadius->setMaximum(100);
+        m_viewRadius->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_3->addWidget(m_viewRadius);
+
+        viewRadiusLabel = new QLabel(layoutWidget);
+        viewRadiusLabel->setObjectName(QStringLiteral("viewRadiusLabel"));
+
+        horizontalLayout_3->addWidget(viewRadiusLabel);
+
+
+        gridLayout_3->addLayout(horizontalLayout_3, 1, 0, 1, 2);
+
+        m_addBoid = new QPushButton(layoutWidget);
+        m_addBoid->setObjectName(QStringLiteral("m_addBoid"));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(m_addBoid->sizePolicy().hasHeightForWidth());
+        m_addBoid->setSizePolicy(sizePolicy2);
+        m_addBoid->setMinimumSize(QSize(0, 40));
+
+        gridLayout_3->addWidget(m_addBoid, 5, 0, 1, 1);
+
+        m_addPredator = new QPushButton(layoutWidget);
+        m_addPredator->setObjectName(QStringLiteral("m_addPredator"));
+        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(m_addPredator->sizePolicy().hasHeightForWidth());
+        m_addPredator->setSizePolicy(sizePolicy3);
+        m_addPredator->setMinimumSize(QSize(0, 40));
+
+        gridLayout_3->addWidget(m_addPredator, 6, 0, 1, 1);
+
+        m_newFlock = new QPushButton(layoutWidget);
         m_newFlock->setObjectName(QStringLiteral("m_newFlock"));
         m_newFlock->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_newFlock, 0, 0, 1, 2);
+        gridLayout_3->addWidget(m_newFlock, 0, 1, 1, 1);
+
+        m_newFlockBoidCount = new QSpinBox(layoutWidget);
+        m_newFlockBoidCount->setObjectName(QStringLiteral("m_newFlockBoidCount"));
+        m_newFlockBoidCount->setMinimumSize(QSize(0, 40));
+        m_newFlockBoidCount->setMinimum(1);
+        m_newFlockBoidCount->setMaximum(1000);
+        m_newFlockBoidCount->setValue(100);
+
+        gridLayout_3->addWidget(m_newFlockBoidCount, 0, 0, 1, 1);
+
+        label_4 = new QLabel(tab_1);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(10, 560, 81, 16));
+        m_boidCountStatus = new QLabel(tab_1);
+        m_boidCountStatus->setObjectName(QStringLiteral("m_boidCountStatus"));
+        m_boidCountStatus->setGeometry(QRect(90, 560, 60, 16));
+        tabWidget->addTab(tab_1, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        gridLayoutWidget = new QWidget(tab_2);
+        gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
+        gridLayoutWidget->setGeometry(QRect(10, 10, 231, 141));
+        gridLayout_2 = new QGridLayout(gridLayoutWidget);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
+        m_obstacleType = new QComboBox(gridLayoutWidget);
+        m_obstacleType->setObjectName(QStringLiteral("m_obstacleType"));
+        m_obstacleType->setMinimumSize(QSize(0, 40));
+        m_obstacleType->setFrame(true);
+
+        gridLayout_2->addWidget(m_obstacleType, 1, 0, 1, 1);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        m_addObstacle = new QPushButton(gridLayoutWidget);
+        m_addObstacle->setObjectName(QStringLiteral("m_addObstacle"));
+        m_addObstacle->setMinimumSize(QSize(0, 40));
+
+        horizontalLayout_4->addWidget(m_addObstacle);
+
+        m_removeObstacle = new QPushButton(gridLayoutWidget);
+        m_removeObstacle->setObjectName(QStringLiteral("m_removeObstacle"));
+        m_removeObstacle->setMinimumSize(QSize(0, 40));
+
+        horizontalLayout_4->addWidget(m_removeObstacle);
 
 
-        gridLayout->addLayout(gridLayout_3, 0, 1, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_4, 2, 0, 1, 1);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalLayout_7->setContentsMargins(-1, -1, -1, 0);
+        label_6 = new QLabel(gridLayoutWidget);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        sizePolicy1.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
+        label_6->setSizePolicy(sizePolicy1);
+        label_6->setMinimumSize(QSize(0, 40));
+
+        horizontalLayout_7->addWidget(label_6);
+
+        m_obstacleSize = new QSlider(gridLayoutWidget);
+        m_obstacleSize->setObjectName(QStringLiteral("m_obstacleSize"));
+        m_obstacleSize->setMinimumSize(QSize(120, 40));
+        m_obstacleSize->setMinimum(1);
+        m_obstacleSize->setMaximum(100);
+        m_obstacleSize->setSliderPosition(1);
+        m_obstacleSize->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_7->addWidget(m_obstacleSize);
+
+        m_obstacleSizeText = new QLabel(gridLayoutWidget);
+        m_obstacleSizeText->setObjectName(QStringLiteral("m_obstacleSizeText"));
+
+        horizontalLayout_7->addWidget(m_obstacleSizeText);
+
+
+        gridLayout_2->addLayout(horizontalLayout_7, 3, 0, 1, 1);
+
+        tabWidget->addTab(tab_2, QString());
+
+        gridLayout->addWidget(tabWidget, 1, 1, 1, 1);
+
+        m_quit = new QPushButton(centralWidget);
+        m_quit->setObjectName(QStringLiteral("m_quit"));
+        sizePolicy2.setHeightForWidth(m_quit->sizePolicy().hasHeightForWidth());
+        m_quit->setSizePolicy(sizePolicy2);
+        m_quit->setMinimumSize(QSize(0, 40));
+
+        gridLayout->addWidget(m_quit, 2, 1, 1, 1);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer, 0, 0, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(verticalSpacer, 3, 1, 1, 1);
+        gridLayout->addItem(horizontalSpacer, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
@@ -254,27 +342,37 @@ public:
 
         retranslateUi(MainWindow);
 
+        tabWidget->setCurrentIndex(1);
+        m_obstacleType->setCurrentIndex(-1);
+
+
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Flocker", 0));
-        m_quit->setText(QApplication::translate("MainWindow", "Quit", 0));
-        label_2->setText(QApplication::translate("MainWindow", "Max. Force", 0));
-        maxForceLabel->setText(QApplication::translate("MainWindow", "0", 0));
-        m_addObstacle->setText(QApplication::translate("MainWindow", "Add Obstacle", 0));
         m_leader->setText(QApplication::translate("MainWindow", "Assign Leader", 0));
-        label_3->setText(QApplication::translate("MainWindow", "View Radius", 0));
-        viewRadiusLabel->setText(QApplication::translate("MainWindow", "0", 0));
-        m_removeObstacle->setText(QApplication::translate("MainWindow", "Remove Obstacle", 0));
-        m_removePredator->setText(QApplication::translate("MainWindow", "Remove Predator", 0));
-        m_addPredator->setText(QApplication::translate("MainWindow", "Add Predator", 0));
-        m_addBoid->setText(QApplication::translate("MainWindow", "Add Boid", 0));
+        m_removeBoid->setText(QApplication::translate("MainWindow", "Remove Boid", 0));
         label->setText(QApplication::translate("MainWindow", "Max. Velocity", 0));
         maxVelLabel->setText(QApplication::translate("MainWindow", "0", 0));
-        m_removeBoid->setText(QApplication::translate("MainWindow", "Remove Boid", 0));
+        label_2->setText(QApplication::translate("MainWindow", "Max. Force", 0));
+        maxForceLabel->setText(QApplication::translate("MainWindow", "0", 0));
+        m_removePredator->setText(QApplication::translate("MainWindow", "Remove Predator", 0));
+        label_3->setText(QApplication::translate("MainWindow", "View Radius", 0));
+        viewRadiusLabel->setText(QApplication::translate("MainWindow", "0", 0));
+        m_addBoid->setText(QApplication::translate("MainWindow", "Add Boid", 0));
+        m_addPredator->setText(QApplication::translate("MainWindow", "Add Predator", 0));
         m_newFlock->setText(QApplication::translate("MainWindow", "New Flock", 0));
+        label_4->setText(QApplication::translate("MainWindow", "Boid count : ", 0));
+        m_boidCountStatus->setText(QApplication::translate("MainWindow", "100", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_1), QApplication::translate("MainWindow", "Flock", 0));
+        m_addObstacle->setText(QApplication::translate("MainWindow", "Add Obstacle", 0));
+        m_removeObstacle->setText(QApplication::translate("MainWindow", "Remove Obstacle", 0));
+        label_6->setText(QApplication::translate("MainWindow", "Size :", 0));
+        m_obstacleSizeText->setText(QApplication::translate("MainWindow", "1", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Obstacles", 0));
+        m_quit->setText(QApplication::translate("MainWindow", "Quit", 0));
     } // retranslateUi
 
 };

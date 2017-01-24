@@ -37,7 +37,7 @@ public:
     //void createObstacles(); later, preset shapes
 
     void addObstacle(std::string _obstacleShape);
-
+    void updateObstacleSize(float _size);
     //void removeObstacle(); //later
 
 private:

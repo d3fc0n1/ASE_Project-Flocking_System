@@ -15,6 +15,7 @@ public:
     ngl::Vec3 getPosition();
     ngl::Vec3 getRotation();
     float getViewRadius();
+    float getAvoidRadius();
     bool isLeader();
     int getNeighbourSize();
 
@@ -53,7 +54,7 @@ public:
 
     void fleeWalls();
 
-    bool pathInterectsSphere(ngl::Vec3 ahead, ngl::Vec3 halfAhead, Boid *_boid);
+    bool pathInterectsSphere(ngl::Vec3 ahead, ngl::Vec3 halfAhead, ngl::Vec3 _threatPosition, float _radius);
 
 private:
 
@@ -94,14 +95,13 @@ private:
     ngl::Vec3 m_wander; //wander vector
     ngl::Vec3 m_avoid;//collision avoidance vector;
     ngl::Vec3 m_follow;//leader following vector
-
+    ngl::Vec3 m_threatPosition;//position vector of the most threatening object in path- obstacle or other boids.
     ngl::Vec3 m_steering; //sum of all steering vectors
 
     bool m_isLeader; // flag for leader boid
     bool m_hasLeader;
 
     Boid *m_leader; //leader boid to follow
-    Boid *m_threat; //most threatening boid for avoidance
     Boid *m_predator; //predator boid to flee;
 
     std::vector<Boid *> m_neighbours; //vector for storing all neighbours

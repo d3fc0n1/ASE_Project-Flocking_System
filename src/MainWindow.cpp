@@ -23,12 +23,13 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), m_ui(new Ui::MainW
     m_ui->m_obstacleType->addItem("troll");
 
     connect(m_ui->m_newFlock,SIGNAL(pressed()),this,SLOT(newFlock()));
-    connect(m_ui->m_velocity, SIGNAL(valueChanged(int)), this, SLOT(updateMaxVel(int)));
+    connect(m_ui->m_velocity, SIGNAL(valueChanged(int)), this, SLOT(updateMaxVelocity(int)));
     connect(m_ui->m_force, SIGNAL(valueChanged(int)), this, SLOT(updateMaxForce(int)));
     connect(m_ui->m_viewRadius, SIGNAL(valueChanged(int)), this, SLOT(updateViewRadius(int)));
     connect(m_ui->m_leader,SIGNAL(toggled(bool)),m_gl,SLOT(toggleLeader(bool)));
     connect(m_ui->m_quit, SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(m_ui->m_addObstacle, SIGNAL(clicked(bool)), this, SLOT(addObstacle()));
+    connect(m_ui->m_obstacleSize, SIGNAL(valueChanged(int)), this, SLOT(updateObstacleSize(int)));
 }
 
 MainWindow::~MainWindow()
@@ -36,27 +37,25 @@ MainWindow::~MainWindow()
     delete m_ui;
 }
 
-void MainWindow::updateMaxVel(int _value)
+void MainWindow::updateMaxVelocity(int _value)
 {
-      m_ui->maxVelLabel->setText(QString::fromStdString(std::to_string(_value)));
+    //m_gl->m_world->m_flock[i].setVelocity()
+    m_ui->maxVelLabel->setText(QString::fromStdString(std::to_string(_value)));
 }
 
 void MainWindow::updateMaxForce(int _value)
 {
-      m_ui->maxForceLabel->setText(QString::fromStdString(std::to_string(_value)));
+    m_ui->maxForceLabel->setText(QString::fromStdString(std::to_string(_value)));
 }
 
 void MainWindow::updateViewRadius(int _value)
 {
-      m_ui->viewRadiusLabel->setText(QString::fromStdString(std::to_string(_value)));
+    m_ui->viewRadiusLabel->setText(QString::fromStdString(std::to_string(_value)));
 }
 
 void MainWindow::newFlock()
 {
-  m_gl->newFlock(100,
-                 20,
-                 10,
-                 20);
+    m_gl->newFlock(m_ui->m_newFlockBoidCount->value(),20,10,20);
 }
 
 void MainWindow::addObstacle()
@@ -66,4 +65,10 @@ void MainWindow::addObstacle()
     std::cout<<selectedObstacle<<'\n';
 }
 
+void MainWindow::updateObstacleSize(int _size)
+{
+    float obstacleSize = static_cast<float>(_size) / 10;
+    m_ui->m_obstacleSizeText->setText((QString::fromStdString(std::to_string(obstacleSize))).left(4));
+    m_gl->updateObstacleSize(static_cast<float>(obstacleSize));
+}
 

@@ -42,6 +42,11 @@ float Boid::getViewRadius()
 {
     return m_viewRadius;
 }
+float Boid::getAvoidRadius()
+{
+    return m_avoidRadius;
+}
+
 //---------------------------SET ATTRIBUTES-----------------------------
 void Boid::setAlignmentWeight(float _alignmentWeight)
 {
@@ -223,19 +228,19 @@ void Boid::setAvoid() //sets m_threat, m_avoid
 {
     ngl::Vec3 ahead = m_position + (m_velocity / m_velocity.length()) * m_maxSeeAhead;
     ngl::Vec3 halfAhead = ahead * 0.5;
-    m_threat = 0;
+    m_threatPosition.set(0.0f,0.0f,0.0f);
     for (size_t i = 0; i<= m_neighbours.size(); ++i)
     {
-        bool collision = pathInterectsSphere(ahead, halfAhead, m_neighbours[i]);
-        if (collision && (m_threat == 0 || ((m_neighbours[i]->getPosition() - m_position).length() <  (m_threat->getPosition() - m_position).length())))
+        bool collision = pathInterectsSphere(ahead, halfAhead, m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
+        if (collision && (m_threatPosition == ngl::Vec3(0.0f,0.0f,0.0f) || ((m_neighbours[i]->getPosition() - m_position).length() <  (m_threatPosition - m_position).length())))
         {
-            m_threat = m_neighbours[i];
+            m_threatPosition = m_neighbours[i]->getPosition();
         }
     }
     m_avoid.set(0.0f,0.0f,0.0f);
-    if (m_threat != 0)
+    if (m_threatPosition != ngl::Vec3(0.0f,0.0f,0.0f))
     {
-        m_avoid = ahead - m_threat->getPosition();
+        m_avoid = ahead - m_threatPosition;
         if (m_avoid.length() != 0)
         {
                 m_avoid.normalize();
@@ -280,8 +285,6 @@ void Boid::setSteering()
     setAlignment();
     setSeparation();
     fleeWalls();
-
-    //m_cohesion *= 200;
 
     m_steering = m_cohesion + m_alignment + m_separation + m_flee; //basic rules, common for all.
     if(m_isLeader)
@@ -347,7 +350,9 @@ void Boid::fleeWalls()
         m_flee.m_z -= (m_position.m_z/2);
     }
 }
-bool Boid::pathInterectsSphere(ngl::Vec3 ahead, ngl::Vec3 halfAhead, Boid *_boid)
+bool Boid::pathInterectsSphere(ngl::Vec3 ahead, ngl::Vec3 halfAhead, ngl::Vec3 _threatPosition, float _radius)
+//threat could be boid or obstacle
+// _radius should be bounding sphere of boid (boid->getAvoidRadius()) or obstacle (size);
 {
-    return ((ahead - _boid->getPosition()).length() <= m_avoidRadius || (halfAhead - _boid->getPosition()).length() <= m_avoidRadius);
+    return ((ahead - _threatPosition).length() <= _radius || (halfAhead - _threatPosition).length() <= _radius);
 }

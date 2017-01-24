@@ -21,9 +21,12 @@ public:
     OpenGLWidget(QWidget *_parent);
     ~OpenGLWidget();
     void newFlock(int _numBoids, float _cohesion, float _separation, float _alignment);
-    void addObstacle(std::string _obstacleType);
+
+
 public slots:
     void toggleLeader(bool _leaderState);
+    void addObstacle(std::string _obstacleType);
+    void updateObstacleSize(float _size);
 
 protected:
     WinParams m_win;

@@ -313,12 +313,12 @@ void OpenGLWidget::paintGL()
     m_boundingBoxVAO->draw();
     m_boundingBoxVAO->unbind();
 
-    for(int i=0 ; i<m_world->m_obstacles.size() ; ++i)
+    for(size_t i=0 ; i<m_world->m_obstacles.size() ; ++i)
     {
         m_tx.reset();
         m_tx.setPosition(m_world->m_obstacles[i].getPosition());
-        float radius = m_world->m_obstacles[i].getSize();
-        m_tx.setScale(radius, radius, radius);
+        float size = m_world->m_obstacles[i].getSize();
+        m_tx.setScale(size, size, size);
 
         loadMatrices();
         m_obstacle->draw(m_world->m_obstacles[i].getShape());
@@ -510,6 +510,11 @@ void OpenGLWidget::addObstacle(std::string _obstacleType)
 {
     m_world->addObstacle(_obstacleType);
     setFocus();
+}
+
+void OpenGLWidget::updateObstacleSize(float _size)
+{
+    m_world->updateObstacleSize(_size);
 }
 
 //void OpenGLWidget::setSeparation(float _separation)

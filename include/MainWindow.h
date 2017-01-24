@@ -17,9 +17,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 public slots:
-    void updateMaxVel(int _value);
+    void updateMaxVelocity(int _value);
     void updateMaxForce(int _value);
     void updateViewRadius(int _value);
+    void updateObstacleSize(int _size);
     void newFlock();
     void addObstacle();
 private:

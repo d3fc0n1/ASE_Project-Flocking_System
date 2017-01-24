@@ -285,33 +285,27 @@ void Boid::setSteering()
     setSeparation();
     fleeWalls();
 
-    m_steering = m_cohesion + m_alignment + m_separation + m_flee; //basic rules, common for all.
+    if (m_neighbours.size() > 0)
+    {
+        for (size_t i=0 ; i<m_neighbours.size();++i)
+        {
+            setAvoid(m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
+        }
+    }
+
+    m_steering = m_cohesion + m_alignment + m_separation + m_avoid + m_flee; //basic rules, common for all.
+
     if(m_isLeader)
     {
         setWander();
-        if (m_neighbours.size() > 0)
-        {
-            for (int i=0 ; i<m_neighbours.size();++i)
-            {
-                setAvoid(m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
-            }
-        }
-
-        m_steering +=  m_wander + m_avoid;
+        m_steering +=  m_wander;
     }
     else //not leader
     {
         if(m_hasLeader)
         {
             setFollow();
-            if (m_neighbours.size() > 0)
-            {
-                for (int i=0 ; i<m_neighbours.size();++i)
-                {
-                    setAvoid(m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
-                }
-            }
-            m_steering += m_follow + m_avoid;
+            m_steering += m_follow;
         }
         else //not leader, no leader
         {

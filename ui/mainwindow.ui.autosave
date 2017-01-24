@@ -52,8 +52,14 @@
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="10" column="0" colspan="2">
-          <widget class="QCheckBox" name="m_leader">
+         <item row="5" column="0">
+          <widget class="QPushButton" name="m_addBoid">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -61,12 +67,12 @@
             </size>
            </property>
            <property name="text">
-            <string>Leader</string>
+            <string>Add Boid</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QPushButton" name="m_removeBoid">
+         <item row="6" column="1">
+          <widget class="QPushButton" name="m_removePredator">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -74,7 +80,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Remove Boid</string>
+            <string>Remove Predator</string>
            </property>
           </widget>
          </item>
@@ -170,8 +176,8 @@
            </item>
           </layout>
          </item>
-         <item row="6" column="1">
-          <widget class="QPushButton" name="m_removePredator">
+         <item row="11" column="0" colspan="2">
+          <widget class="QCheckBox" name="m_leader">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -179,7 +185,26 @@
             </size>
            </property>
            <property name="text">
-            <string>Remove Predator</string>
+            <string>Leader</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QSpinBox" name="m_newFlockBoidCount">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="value">
+            <number>100</number>
            </property>
           </widget>
          </item>
@@ -223,14 +248,8 @@
            </item>
           </layout>
          </item>
-         <item row="5" column="0">
-          <widget class="QPushButton" name="m_addBoid">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="m_newFlock">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -238,7 +257,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Add Boid</string>
+            <string>New Flock</string>
            </property>
           </widget>
          </item>
@@ -261,8 +280,8 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="m_newFlock">
+         <item row="5" column="1">
+          <widget class="QPushButton" name="m_removeBoid">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -270,26 +289,33 @@
             </size>
            </property>
            <property name="text">
-            <string>New Flock</string>
+            <string>Remove Boid</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="m_newFlockBoidCount">
+         <item row="7" column="0">
+          <widget class="QPushButton" name="m_addPrey">
            <property name="minimumSize">
             <size>
              <width>0</width>
              <height>40</height>
             </size>
            </property>
-           <property name="minimum">
-            <number>1</number>
+           <property name="text">
+            <string>Add Prey</string>
            </property>
-           <property name="maximum">
-            <number>1000</number>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QPushButton" name="pushButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
            </property>
-           <property name="value">
-            <number>100</number>
+           <property name="text">
+            <string>Remove Prey</string>
            </property>
           </widget>
          </item>

@@ -23,6 +23,8 @@ public slots:
     void updateObstacleSize(int _size);
     void newFlock();
     void addObstacle();
+    void removeObstacle();
+    void toggleLeader(bool _leaderState);
 private:
     Ui::MainWindow *m_ui;
     OpenGLWidget *m_gl;

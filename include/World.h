@@ -33,23 +33,17 @@ public:
     //void removePredator(); //later
 
     //void setPrey() //could be set to leader boid
-
-    //void createObstacles(); later, preset shapes
-
     void addObstacle(std::string _obstacleShape);
+    void removeObstacle();
     void updateObstacleSize(float _size);
-    //void removeObstacle(); //later
+    void avoidObstacles();
 
 private:
 
     Octree *m_octree;
     OctreePoint *m_octreePoints;
-
     ngl::Vec3 m_centroid;
     //Predator *predator; later
-
-
-
 };
 
 #endif // WORLD_H

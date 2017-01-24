@@ -342,7 +342,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
         m_obstacleType->setCurrentIndex(-1);
 
 
@@ -352,7 +352,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Flocker", 0));
-        m_leader->setText(QApplication::translate("MainWindow", "Assign Leader", 0));
+        m_leader->setText(QApplication::translate("MainWindow", "Leader", 0));
         m_removeBoid->setText(QApplication::translate("MainWindow", "Remove Boid", 0));
         label->setText(QApplication::translate("MainWindow", "Max. Velocity", 0));
         maxVelLabel->setText(QApplication::translate("MainWindow", "0", 0));

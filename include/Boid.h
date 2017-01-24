@@ -44,7 +44,7 @@ public:
     void evade(Boid *_boid);
 
     void setWander();
-    void setAvoid();
+    void setAvoid(ngl::Vec3 _obstaclePosition, float _obstacleRadius);
     void setFollow();
 
     void setSteering();
@@ -72,14 +72,13 @@ private:
     float m_wanderAzimuth = ngl::Random::instance()->randomNumber() * 5;
     float m_wanderAngleChange = 2.0f;
     float m_wanderAzimuthChange = 4.0f;
-    //int m_wanderIteration = 0;
     float m_avoidRadius = 10.0f; // radius of avoidance sphere of the boid
     float m_avoidWeight; //avoidance force weight
     float m_cohesionWeight; //cohesion weight
     float m_alignmentWeight; //alignment weight
     float m_separationWeight; //separation weight
     float m_maxSeeAhead = 20.0f;// maximum see-ahead distance
-    float m_leaderFollowDistance = 10.0f; //leader follow distance
+    float m_leaderFollowDistance = 5.0f; //leader follow distance
     float m_viewRadius = 30.0f;//view to find leader
     float m_separationRadius = 20.f;//separation radius
 

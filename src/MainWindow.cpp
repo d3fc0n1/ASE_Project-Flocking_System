@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), m_ui(new Ui::MainW
     connect(m_ui->m_quit, SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(m_ui->m_addObstacle, SIGNAL(clicked(bool)), this, SLOT(addObstacle()));
     connect(m_ui->m_obstacleSize, SIGNAL(valueChanged(int)), this, SLOT(updateObstacleSize(int)));
+    connect(m_ui->m_removeObstacle, SIGNAL(clicked(bool)), this, SLOT(removeObstacle()));
 }
 
 MainWindow::~MainWindow()
@@ -62,7 +63,11 @@ void MainWindow::addObstacle()
 {
     std::string selectedObstacle = m_ui->m_obstacleType->currentText().toStdString();
     m_gl->addObstacle(selectedObstacle);
-    std::cout<<selectedObstacle<<'\n';
+}
+
+void MainWindow::removeObstacle()
+{
+    m_gl->removeObstacle();
 }
 
 void MainWindow::updateObstacleSize(int _size)
@@ -72,3 +77,7 @@ void MainWindow::updateObstacleSize(int _size)
     m_gl->updateObstacleSize(static_cast<float>(obstacleSize));
 }
 
+void MainWindow::toggleLeader(bool _leaderState)
+{
+    m_gl->toggleLeader(_leaderState);
+}

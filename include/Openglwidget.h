@@ -26,6 +26,7 @@ public:
 public slots:
     void toggleLeader(bool _leaderState);
     void addObstacle(std::string _obstacleType);
+    void removeObstacle();
     void updateObstacleSize(float _size);
 
 protected:
@@ -63,7 +64,6 @@ private:
     ngl::Transformation m_tx;
     ngl::VAOPrimitives *m_obstacle;
     World *m_world;
-    int m_leaderId;
     bool m_leader;
 };
 

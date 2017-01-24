@@ -62,6 +62,14 @@ void World::addObstacle(std::string _obstacleShape)
     m_obstacles.push_back(obstacle);
 }
 
+void World::removeObstacle()
+{
+    if (m_obstacles.size() > 0)
+    {
+        m_obstacles.pop_back();
+    }
+}
+
 void World::updateObstacleSize(float _size)
 {
     for (auto obstacle: m_obstacles)
@@ -78,7 +86,13 @@ void World::removeBoid()
     }
 }
 
-
+void World::avoidObstacles()
+{
+    for (size_t i=0; i<m_obstacles.size(); ++i)
+    {
+        m_flock[i].setAvoid(m_obstacles[i].getPosition(), m_obstacles[i].getSize());
+    }
+}
 
 void World::setNeighbours(int _id)
 {

@@ -224,19 +224,18 @@ void Boid::setWander() //sets m_wander
 
     m_wander = sphereCenter + displacement;
 }
-void Boid::setAvoid() //sets m_threat, m_avoid
+void Boid::setAvoid(ngl::Vec3 _obstaclePosition, float _obstacleRadius) //call for every neighbour, pass in position and avoidradius
 {
     ngl::Vec3 ahead = m_position + (m_velocity / m_velocity.length()) * m_maxSeeAhead;
     ngl::Vec3 halfAhead = ahead * 0.5;
     m_threatPosition.set(0.0f,0.0f,0.0f);
-    for (size_t i = 0; i<= m_neighbours.size(); ++i)
+
+    bool collision = pathInterectsSphere(ahead, halfAhead, _obstaclePosition, _obstacleRadius);
+    if (collision && (m_threatPosition == ngl::Vec3(0.0f,0.0f,0.0f) || ((_obstaclePosition - m_position).length() <  (m_threatPosition - m_position).length())))
     {
-        bool collision = pathInterectsSphere(ahead, halfAhead, m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
-        if (collision && (m_threatPosition == ngl::Vec3(0.0f,0.0f,0.0f) || ((m_neighbours[i]->getPosition() - m_position).length() <  (m_threatPosition - m_position).length())))
-        {
-            m_threatPosition = m_neighbours[i]->getPosition();
-        }
+        m_threatPosition = _obstaclePosition;
     }
+
     m_avoid.set(0.0f,0.0f,0.0f);
     if (m_threatPosition != ngl::Vec3(0.0f,0.0f,0.0f))
     {
@@ -290,7 +289,14 @@ void Boid::setSteering()
     if(m_isLeader)
     {
         setWander();
-        setAvoid();
+        if (m_neighbours.size() > 0)
+        {
+            for (int i=0 ; i<m_neighbours.size();++i)
+            {
+                setAvoid(m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
+            }
+        }
+
         m_steering +=  m_wander + m_avoid;
     }
     else //not leader
@@ -298,7 +304,13 @@ void Boid::setSteering()
         if(m_hasLeader)
         {
             setFollow();
-            setAvoid();
+            if (m_neighbours.size() > 0)
+            {
+                for (int i=0 ; i<m_neighbours.size();++i)
+                {
+                    setAvoid(m_neighbours[i]->getPosition(), m_neighbours[i]->getAvoidRadius());
+                }
+            }
             m_steering += m_follow + m_avoid;
         }
         else //not leader, no leader

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <Openglwidget.h>
+#include <vector>
 
 namespace Ui {
 class MainWindow;
@@ -15,12 +16,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
 public slots:
     void updateMaxVel(int _value);
     void updateMaxForce(int _value);
     void updateViewRadius(int _value);
-    void newFlockPressed();
+    void newFlock();
+    void addObstacle();
 private:
     Ui::MainWindow *m_ui;
     OpenGLWidget *m_gl;

@@ -5,6 +5,8 @@
 #include <vector>
 #include "Boid.h"
 #include "Octree.h"
+#include "Obstacle.h"
+#include <string>
 
 class World
 {
@@ -23,6 +25,7 @@ public:
     void clearLeader();
     void updateOctree();
     std::vector<Boid> m_flock;
+    std::vector<Obstacle> m_obstacles;
     std::random_device m_rd;
 
     //void addPredator(); //later
@@ -33,24 +36,19 @@ public:
 
     //void createObstacles(); later, preset shapes
 
-    //void addObstacle();   //later
+    void addObstacle(std::string _obstacleShape);
 
     //void removeObstacle(); //later
+
 private:
 
-
-
-    //std::vector<Obstacle> m_obstacle; later
-
-
-
     Octree *m_octree;
+    OctreePoint *m_octreePoints;
 
     ngl::Vec3 m_centroid;
-
     //Predator *predator; later
 
-    //std::vector<Obstacles> m_obstacles; later
+
 
 };
 

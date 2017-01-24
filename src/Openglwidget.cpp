@@ -4,7 +4,6 @@
 #include <ngl/Transformation.h>
 #include <ngl/Material.h>
 #include <ngl/NGLInit.h>
-#include <ngl/VAOPrimitives.h>
 #include <ngl/ShaderLib.h>
 #include <ngl/VAOFactory.h>
 #include <ngl/Random.h>
@@ -22,6 +21,7 @@ OpenGLWidget::~OpenGLWidget()
     std::cout<<"Shutting down NGL, removing VAO's and Shaders\n";
     m_boidVAO->removeVAO();
     m_boundingBoxVAO->removeVAO();
+    delete m_world;
 }
 void OpenGLWidget::resizeGL(int _w, int _h)
 {
@@ -36,7 +36,7 @@ void OpenGLWidget::initializeGL()
     // this everything will crash
     ngl::NGLInit::instance();
 
-    glClearColor(0.6f, 0.6f, 0.6f, 1.0f);			   // Grey Background
+    glClearColor(0.5f, 0.6f, 0.7f, 1.0f);			   // Grey Background
     // enable depth testing for drawing
 
     glEnable(GL_DEPTH_TEST);
@@ -44,7 +44,7 @@ void OpenGLWidget::initializeGL()
     // Now we will create a basic Camera from the graphics library
     // This is a static camera so it only needs to be set once
     // First create Values for the camera position
-    ngl::Vec3 from(0,10,90);
+    ngl::Vec3 from(0,50,350);
     ngl::Vec3 to(0,0,0);
     ngl::Vec3 up(0,1,0);
 
@@ -95,7 +95,10 @@ void OpenGLWidget::initializeGL()
     // transpose of the projection matrix to the light to do correct eye space
     // transformations
 
+
     m_world = new World(100);
+
+    m_obstacle = ngl::VAOPrimitives::instance();
 
     ngl::Mat4 iv=m_cam.getViewMatrix();
     iv.transpose();
@@ -117,41 +120,41 @@ void OpenGLWidget::buildBoundingBoxVAO()
 {
     std::vector<ngl::Vec3> verts =
     {
-        ngl::Vec3(25,25,25),
-        ngl::Vec3(25,25,-25),
+        ngl::Vec3(100,100,100),
+        ngl::Vec3(100,100,-100),
 
-        ngl::Vec3(25,25,-25),
-        ngl::Vec3(-25,25,-25),
+        ngl::Vec3(100,100,-100),
+        ngl::Vec3(-100,100,-100),
 
-        ngl::Vec3(-25,25,-25),
-        ngl::Vec3(-25,25,25),
+        ngl::Vec3(-100,100,-100),
+        ngl::Vec3(-100,100,100),
 
-        ngl::Vec3(-25,25,25),
-        ngl::Vec3(25,25,25),
+        ngl::Vec3(-100,100,100),
+        ngl::Vec3(100,100,100),
 
-        ngl::Vec3(25,-25,25),
-        ngl::Vec3(25,-25,-25),
+        ngl::Vec3(100,-100,100),
+        ngl::Vec3(100,-100,-100),
 
-        ngl::Vec3(25,-25,-25),
-        ngl::Vec3(-25,-25,-25),
+        ngl::Vec3(100,-100,-100),
+        ngl::Vec3(-100,-100,-100),
 
-        ngl::Vec3(-25,-25,-25),
-        ngl::Vec3(-25,-25,25),
+        ngl::Vec3(-100,-100,-100),
+        ngl::Vec3(-100,-100,100),
 
-        ngl::Vec3(-25,-25,25),
-        ngl::Vec3(25,-25,25),
+        ngl::Vec3(-100,-100,100),
+        ngl::Vec3(100,-100,100),
 
-        ngl::Vec3(25,-25,25),
-        ngl::Vec3(25,25,25),
+        ngl::Vec3(100,-100,100),
+        ngl::Vec3(100,100,100),
 
-        ngl::Vec3(25,-25,-25),
-        ngl::Vec3(25,25,-25),
+        ngl::Vec3(100,-100,-100),
+        ngl::Vec3(100,100,-100),
 
-        ngl::Vec3(-25,-25,-25),
-        ngl::Vec3(-25,25,-25),
+        ngl::Vec3(-100,-100,-100),
+        ngl::Vec3(-100,100,-100),
 
-        ngl::Vec3(-25,-25,25),
-        ngl::Vec3(-25,25,25),
+        ngl::Vec3(-100,-100,100),
+        ngl::Vec3(-100,100,100),
     };
 
     m_boundingBoxVAO.reset(ngl::VAOFactory::createVAO(ngl::simpleVAO,GL_LINES) );
@@ -168,29 +171,29 @@ void OpenGLWidget::buildBoidVAO()
     std::vector<ngl::Vec3> verts =
     {
         //top left
-        ngl::Vec3(0,0,-1),
-        ngl::Vec3(-1,0,1.5),
-        ngl::Vec3(0,0.2,1),
+        ngl::Vec3(0,0,-3),
+        ngl::Vec3(-3,0,4.5),
+        ngl::Vec3(0,0.6,3),
         //top right
-        ngl::Vec3(0,0,-1),
-        ngl::Vec3(0,0.2,1),
-        ngl::Vec3(1,0,1.5),
+        ngl::Vec3(0,0,-3),
+        ngl::Vec3(0,0.6,3),
+        ngl::Vec3(3,0,4.5),
         //bottom left
-        ngl::Vec3(0,0,-1),
-        ngl::Vec3(0,-0.2,1),
-        ngl::Vec3(-1,0,1.5),
+        ngl::Vec3(0,0,-3),
+        ngl::Vec3(0,-0.6,3),
+        ngl::Vec3(-3,0,4.5),
         //bottom right
-        ngl::Vec3(1,0,1.5),
-        ngl::Vec3(0,-0.2,1),
-        ngl::Vec3(0,0,-1),
+        ngl::Vec3(3,0,4.5),
+        ngl::Vec3(0,-0.6,3),
+        ngl::Vec3(0,0,-3),
         //rear left
-        ngl::Vec3(0,0.2,1),
-        ngl::Vec3(-1,0,1.5),
-        ngl::Vec3(0,-0.2,1),
+        ngl::Vec3(0,0.6,3),
+        ngl::Vec3(-3,0,4.5),
+        ngl::Vec3(0,-0.6,3),
         //rear right
-        ngl::Vec3(0,0.2,1),
-        ngl::Vec3(0,-0.2,1),
-        ngl::Vec3(1,0,1.5)
+        ngl::Vec3(0,0.6,3),
+        ngl::Vec3(0,-0.6,3),
+        ngl::Vec3(3,0,4.5)
 
     };
 
@@ -253,7 +256,7 @@ void OpenGLWidget::loadMatrices()
     ngl::Mat3 normalMatrix;
     ngl::Mat4 M;
 
-    M=m_mouseGlobalTX;
+    M= m_tx.getMatrix() * m_mouseGlobalTX;
     MV=  M*m_cam.getViewMatrix();
     MVP= M*m_cam.getVPMatrix();
     normalMatrix=MV;
@@ -284,36 +287,43 @@ void OpenGLWidget::paintGL()
     m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
     m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
 
-    for (int i = 0; i > m_world->getSize(); ++i)
+
+
+    m_boidVAO->bind();
+
+    for (int i = 0; i < m_world->getSize(); ++i)
     {
         if(m_world->m_flock[i].isLeader())
         {
-            m_transform.reset();
-            m_transform.setScale(2,2,2);
-            m_transform.setPosition(m_world->m_flock[i].getPosition());
-            //m_transform.addRotation( m_world->m_flock[i].getRotation());
-            loadMatrices();
-            //shader->setShaderParam4f("objectColour", 0.5, 0.5, 1,1.0);
+            m_tx.setScale(2,2,2);
         }
         else
         {
-            m_transform.reset();
-            m_transform.setPosition(m_world->m_flock[i].getPosition());
-            //m_transform.addRotation( m_world->m_flock[i].getRotation());
-            loadMatrices();
-            //shader->setShaderParam4f("objectColour", 1.0, 0.5, 0.31,1.0);
+            m_tx.setScale(1,1,1);
         }
-
-        m_boidVAO->bind();
+        m_tx.setRotation(m_world->m_flock[i].getRotation());
+        m_tx.setPosition(m_world->m_flock[i].getPosition());
+        loadMatrices();
         m_boidVAO->draw();
-        m_boidVAO->unbind();
     }
-
-    m_transform.reset();
+    m_boidVAO->unbind();
+    m_tx.reset();
     loadMatrices();
     m_boundingBoxVAO->bind();
     m_boundingBoxVAO->draw();
     m_boundingBoxVAO->unbind();
+
+    for(int i=0 ; i<m_world->m_obstacles.size() ; ++i)
+    {
+        m_tx.reset();
+        m_tx.setPosition(m_world->m_obstacles[i].getPosition());
+        float radius = m_world->m_obstacles[i].getSize();
+        m_tx.setScale(radius, radius, radius);
+
+        loadMatrices();
+        m_obstacle->draw(m_world->m_obstacles[i].getShape());
+
+    }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -493,6 +503,12 @@ void OpenGLWidget::toggleLeader(bool _leaderState)
         m_world->clearLeader();
         m_leader = _leaderState;;
     }
+    setFocus();
+}
+
+void OpenGLWidget::addObstacle(std::string _obstacleType)
+{
+    m_world->addObstacle(_obstacleType);
     setFocus();
 }
 

@@ -3,6 +3,7 @@
 
 #include <ngl/Vec3.h>
 #include <vector>
+#include <ngl/Random.h>
 
 class Boid
 {
@@ -12,8 +13,10 @@ public:
     int getId();
     ngl::Vec3 getVelocity();
     ngl::Vec3 getPosition();
-    float getSenseRadius(); 
+    ngl::Vec3 getRotation();
+    float getViewRadius();
     bool isLeader();
+    int getNeighbourSize();
 
     //void setSpeed(int _speed);
     void setAlignmentWeight(float _alignmentWeight);
@@ -36,7 +39,7 @@ public:
     void setSeek();
     void pursue(Boid *_boid);
 
-    void setFlee();
+    void setFlee(ngl::Vec3 _fleePosition);
     void evade(Boid *_boid);
 
     void setWander();
@@ -45,7 +48,8 @@ public:
 
     void setSteering();
 
-    void move();//add all vectors
+    void move();
+    void rotate();
 
     void fleeWalls();
 
@@ -61,10 +65,13 @@ private:
     ngl::Vec3 m_target; // target vector
     float m_slowingRadius = 10.0f; //slowing radius
     float m_maxVelocity = 5.0f; //multiplier for maximum velocity
-    float m_wanderCircleDistance = 5.0f;
-    float m_wanderCircleRadius = 5.0f;
-    float m_wanderAngle = 20.0f;//set as ngl random number
+    float m_wanderSphereDistance = 5.0f;
+    float m_wanderSphereRadius = 2.0f;
+    float m_wanderAngle = ngl::Random::instance()->randomNumber() * 10;
+    float m_wanderAzimuth = ngl::Random::instance()->randomNumber() * 5;
     float m_wanderAngleChange = 2.0f;
+    float m_wanderAzimuthChange = 4.0f;
+    //int m_wanderIteration = 0;
     float m_avoidRadius = 10.0f; // radius of avoidance sphere of the boid
     float m_avoidWeight; //avoidance force weight
     float m_cohesionWeight; //cohesion weight
@@ -72,8 +79,12 @@ private:
     float m_separationWeight; //separation weight
     float m_maxSeeAhead = 20.0f;// maximum see-ahead distance
     float m_leaderFollowDistance = 10.0f; //leader follow distance
-    float m_viewRadius = 50.0f;//view to find leader
+    float m_viewRadius = 30.0f;//view to find leader
     float m_separationRadius = 20.f;//separation radius
+
+    float m_roll; //rotation about x axis -180 to 180
+    float m_pitch; //rotation about y axis -90 to 90
+    float m_yaw; //rotation about z axis -180 to 180
 
     ngl::Vec3 m_separation; //separation force vector
     ngl::Vec3 m_alignment; //alignment force vector

@@ -1,23 +1,16 @@
 #include "Boid.h"
-#include <random>
 #include <math.h>
-
+#include <iostream>
 //-------------------------------CTOR----------------------------------
 Boid::Boid(int _id)
 {
     m_id=_id;
-
-    setPosition(ngl::Vec3(0.0f, 0.0f, 0.0f));
-    setVelocity(ngl::Vec3(1.0f, 0.0f, 0.0f));
     m_flee.set(ngl::Vec3(0.0f, 0.0f, 0.0f));
     m_centroid.set(ngl::Vec3(0.0f, 0.0f, 0.0f));
     m_hasLeader=false;
     m_isLeader=false;
     m_slowingRadius = 10.0f;
-
-    //m_maxSpeed=2.0f;
-    //m_speed=0.5f;
-    //m_senseRadius = 50.0f;
+    m_viewRadius = 30.0f;
 }
 
 //---------------------------GET ATTRIBUTES-----------------------------
@@ -29,6 +22,10 @@ ngl::Vec3 Boid::getPosition()
 {
     return m_position;
 }
+ngl::Vec3 Boid::getRotation()
+{
+    return ngl::Vec3(m_pitch, m_yaw ,m_roll);
+}
 ngl::Vec3 Boid::getVelocity()
 {
     return m_velocity;
@@ -37,10 +34,14 @@ bool Boid::isLeader()
 {
     return m_isLeader;
 }
-//float Boid::getSenseRadius()
-//{
-//    return m_senseRadius;
-//}
+int Boid::getNeighbourSize()
+{
+    return m_neighbours.size();
+}
+float Boid::getViewRadius()
+{
+    return m_viewRadius;
+}
 //---------------------------SET ATTRIBUTES-----------------------------
 void Boid::setAlignmentWeight(float _alignmentWeight)
 {
@@ -73,7 +74,7 @@ void Boid::setLeader(Boid *_leader)
 }
 void Boid::setNeighbours(Boid *_boid)
 {
-      m_neighbours.push_back(_boid);
+    m_neighbours.push_back(_boid);
 }
 void Boid::setCentroid()
 {
@@ -106,7 +107,6 @@ void Boid::makeLeader()
 {
   m_isLeader = true;
   m_hasLeader = false;
-  //m_senseRadius = 8;
   m_leader = 0; //has no leader, clear pointer
 }
 
@@ -146,7 +146,7 @@ void Boid::setSeparation()
     {
         for (size_t i = 0; i < m_neighbours.size(); ++i)
         {
-            if (m_position.distanceTo(m_neighbours[i]->getPosition()) > m_separationRadius)
+            if ((m_neighbours[i]->getPosition() - m_position).length() > m_separationRadius)
             {
                 ngl::Vec3 pos(m_neighbours[i]->getPosition());
                 ngl::Vec3 target = m_position - pos;
@@ -184,9 +184,9 @@ void Boid::pursue(Boid *_boid) //sets a target to seek
     setSeek();
 }
 
-void Boid::setFlee() //needs m_target to function
+void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
 {
-    ngl::Vec3 desiredVelocity = m_position - m_target;
+    ngl::Vec3 desiredVelocity = m_position - _fleePosition;
     desiredVelocity.normalize();
     desiredVelocity *= m_maxVelocity;
     m_flee = desiredVelocity - m_velocity;
@@ -196,23 +196,28 @@ void Boid::evade(Boid *_boid) //sets a target for fleeing
     ngl::Vec3 distance = _boid->getPosition() - m_position;
     int frames = distance.length() / m_maxVelocity;
     m_target = _boid->getPosition() + _boid->getVelocity() * frames;
-    setFlee();
+    setFlee(_boid->getPosition());
 }
 
 void Boid::setWander() //sets m_wander
 {
-    ngl::Vec3 circleCenter = m_velocity;
-    if (circleCenter.length() !=0)
+    ngl::Vec3 sphereCenter = m_velocity;
+    if (sphereCenter.length() !=0)
     {
-        circleCenter.normalize();
+        sphereCenter.normalize();
     }
-    circleCenter *= m_wanderCircleDistance;
-    ngl::Vec3 displacement(0,0,-1);
-    displacement.m_x = cos(m_wanderAngle) * displacement.length();
-    displacement.m_y = sin(m_wanderAngle) * displacement.length();
-    m_wanderAngle += rand() * m_wanderAngleChange - m_wanderAngleChange * 0.5f;
+    sphereCenter *= m_wanderSphereDistance;
 
-    m_wander = circleCenter + displacement;
+    ngl::Vec3 displacement;
+
+    displacement.m_x = m_wanderSphereRadius * cos(m_wanderAngle) * sin(m_wanderAzimuth);
+    displacement.m_y = m_wanderSphereRadius * sin(m_wanderAngle) * sin(m_wanderAzimuth);
+    displacement.m_z = m_wanderSphereRadius * tan(m_wanderAngle);
+
+    m_wanderAngle += ngl::Random::instance()->randomNumber() * m_wanderAngleChange - m_wanderAngleChange * 0.5f;
+    m_wanderAzimuth += ngl::Random::instance()->randomNumber() * m_wanderAzimuthChange - m_wanderAzimuthChange * 1.0f;
+
+    m_wander = sphereCenter + displacement;
 }
 void Boid::setAvoid() //sets m_threat, m_avoid
 {
@@ -222,7 +227,7 @@ void Boid::setAvoid() //sets m_threat, m_avoid
     for (size_t i = 0; i<= m_neighbours.size(); ++i)
     {
         bool collision = pathInterectsSphere(ahead, halfAhead, m_neighbours[i]);
-        if (collision && (m_threat == 0 || (m_position.distanceTo(m_neighbours[i]->getPosition()) <  m_position.distanceTo(m_threat->getPosition()))))
+        if (collision && (m_threat == 0 || ((m_neighbours[i]->getPosition() - m_position).length() <  (m_threat->getPosition() - m_position).length())))
         {
             m_threat = m_neighbours[i];
         }
@@ -245,7 +250,7 @@ void Boid::setFollow() //sets m_follow
     ngl::Vec3 ahead = m_leader->getPosition() + leaderVelocity * m_leaderFollowDistance;
     ngl::Vec3 behind = m_leader->getPosition() - leaderVelocity * m_leaderFollowDistance;
 
-    if (ahead.distanceTo(m_position) <= m_viewRadius || m_leader->getPosition().distanceTo(m_position) <= m_viewRadius)
+    if ((m_position - ahead).length() <= m_viewRadius || (m_leader->getPosition() - m_position).length() <= m_viewRadius)
     {
         evade(m_leader);
         m_follow += m_flee;
@@ -266,12 +271,19 @@ void Boid::setFollow() //sets m_follow
     m_follow += m_separation;
 }
 
+
 void Boid::setSteering()
 {
+    //std::cout<<"Neighbour size : "<<m_neighbours.size()<<'\n';
+    m_flee.set(0,0,0);
     setCohesion();
     setAlignment();
     setSeparation();
-    m_steering + m_cohesion + m_alignment + m_separation; //basic rules, common for all.
+    fleeWalls();
+
+    //m_cohesion *= 200;
+
+    m_steering = m_cohesion + m_alignment + m_separation + m_flee; //basic rules, common for all.
     if(m_isLeader)
     {
         setWander();
@@ -292,34 +304,50 @@ void Boid::setSteering()
             m_steering += m_wander;
         }
     }
+
+    if (m_steering.length() != 0)
+        m_steering.normalize();
+
     //if predator exists, Evade
     //if moving target exists, pursue
 }
 //-------------------------------MOVEMENT----------------------------------
 void Boid::move()
 {
+    setSteering();
     m_velocity += m_steering;
-    m_velocity.limit(m_maxVelocity);
+    m_velocity.normalize();
+//    std::cout<<"cohesion :"<<m_cohesion.m_x<<'\n';
+//    std::cout<<"separation :"<<m_separation.m_x<<'\n';
+//    std::cout<<"alignment :"<<m_alignment.m_x<<'\n';
+
     m_position += m_velocity;
+    rotate();
+}
+void Boid::rotate()
+{
+    m_roll = atan2(m_velocity.m_y, m_velocity.m_z) * 180/M_PI;
+    m_pitch = atan2(m_velocity.m_x, sqrt(m_velocity.m_y * m_velocity.m_y + m_velocity.m_z * m_velocity.m_z)) * 180/M_PI + 180;
+    m_yaw = atan2(m_velocity.m_x, m_velocity.m_z) * 180/M_PI;
 }
 
 //--------------------------------OTHERS------------------------------------
 void Boid::fleeWalls()
 {
-    if (m_position.m_x <= -25 || m_position.m_x >= 25)
+    if (m_position.m_x <= -100 || m_position.m_x >= 100)
     {
-        m_flee.m_x -= (m_position.m_x / 2);
+        m_flee.m_x -= (m_position.m_x/2);
     }
-    if (m_position.m_y <= -25 || m_position.m_y >= 25)
+    if (m_position.m_y <= -100 || m_position.m_y >= 100)
     {
-        m_flee.m_y -= (m_position.m_y / 2);
+        m_flee.m_y -= (m_position.m_y/2);
     }
-    if (m_position.m_z <= -25 || m_position.m_z >= 25)
+    if (m_position.m_z <= -100 || m_position.m_z >= 100)
     {
-        m_flee.m_z -= (m_position.m_z / 2);
+        m_flee.m_z -= (m_position.m_z/2);
     }
 }
 bool Boid::pathInterectsSphere(ngl::Vec3 ahead, ngl::Vec3 halfAhead, Boid *_boid)
 {
-    return (_boid->getPosition().distanceTo(ahead) <= m_avoidRadius || _boid->getPosition().distanceTo(halfAhead) <= m_avoidRadius);
+    return ((ahead - _boid->getPosition()).length() <= m_avoidRadius || (halfAhead - _boid->getPosition()).length() <= m_avoidRadius);
 }

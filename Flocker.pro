@@ -22,14 +22,17 @@ SOURCES += $$PWD/src/main.cpp \
            $$PWD/src/Openglwidget.cpp \
            $$PWD/src/MainWindow.cpp \
            $$PWD/src/World.cpp \
-           $$PWD/src/Octree.cpp
+           $$PWD/src/Octree.cpp \
+    include/Obstacle.cpp
 
 HEADERS  += $$PWD/include/Boid.h \
             $$PWD/include/WindowParams.h \
             $$PWD/include/Openglwidget.h \
             $$PWD/include/MainWindow.h \
             $$PWD/include/World.h \
-            $$PWD/include/Octree.h
+            $$PWD/include/Octree.h \
+    include/OctreePoint.h \
+    include/Obstacle.h
 
 FORMS   +=  $$PWD/ui/MainWindow.ui
 

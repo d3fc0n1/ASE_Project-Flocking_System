@@ -5,6 +5,7 @@
 #include <ngl/Light.h>
 #include <ngl/Text.h>
 #include <ngl/SimpleVAO.h>
+#include <ngl/VAOPrimitives.h>
 #include <ngl/Transformation.h>
 #include <QOpenGLWidget>
 #include "WindowParams.h"
@@ -20,7 +21,7 @@ public:
     OpenGLWidget(QWidget *_parent);
     ~OpenGLWidget();
     void newFlock(int _numBoids, float _cohesion, float _separation, float _alignment);
-
+    void addObstacle(std::string _obstacleType);
 public slots:
     void toggleLeader(bool _leaderState);
 
@@ -42,6 +43,7 @@ protected:
     void setCohesion(float _cohesion);
 
     void addBoid(float _cohesion, float _separation, float _alignment);
+
     void removeBoid();
 
 private:
@@ -55,9 +57,8 @@ private:
     void buildBoundingBoxVAO();
     void loadMatrices();
 
-    ngl::Transformation m_transform;
-
-    std::vector<ngl::Vec3> m_positions;
+    ngl::Transformation m_tx;
+    ngl::VAOPrimitives *m_obstacle;
     World *m_world;
     int m_leaderId;
     bool m_leader;

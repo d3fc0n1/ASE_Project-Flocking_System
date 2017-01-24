@@ -4,20 +4,31 @@
 #include "Boid.h"
 #include <iostream>
 #include <string>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
     m_gl=new OpenGLWidget(this);
-
     //m_gl->resize();
     //m_ui->
-    connect(m_ui->m_newFlock,SIGNAL(pressed()),this,SLOT(newFlockPressed()));
-    connect(m_ui->maxVelSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMaxVel(int)));
-    connect(m_ui->maxForceSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMaxForce(int)));
-    connect(m_ui->viewRadiusSlider, SIGNAL(valueChanged(int)), this, SLOT(updateViewRadius(int)));
+
+    m_ui->m_obstacleType->addItem("teapot");
+    m_ui->m_obstacleType->addItem("octahedron");
+    m_ui->m_obstacleType->addItem("dodecahedron");
+    m_ui->m_obstacleType->addItem("icosahedron");
+    m_ui->m_obstacleType->addItem("tetrahedron");
+    m_ui->m_obstacleType->addItem("football");
+    m_ui->m_obstacleType->addItem("cube");
+    m_ui->m_obstacleType->addItem("troll");
+
+    connect(m_ui->m_newFlock,SIGNAL(pressed()),this,SLOT(newFlock()));
+    connect(m_ui->m_velocity, SIGNAL(valueChanged(int)), this, SLOT(updateMaxVel(int)));
+    connect(m_ui->m_force, SIGNAL(valueChanged(int)), this, SLOT(updateMaxForce(int)));
+    connect(m_ui->m_viewRadius, SIGNAL(valueChanged(int)), this, SLOT(updateViewRadius(int)));
     connect(m_ui->m_leader,SIGNAL(toggled(bool)),m_gl,SLOT(toggleLeader(bool)));
-    connect(m_ui->quitButton, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(m_ui->m_quit, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(m_ui->m_addObstacle, SIGNAL(clicked(bool)), this, SLOT(addObstacle()));
 }
 
 MainWindow::~MainWindow()
@@ -40,16 +51,19 @@ void MainWindow::updateViewRadius(int _value)
       m_ui->viewRadiusLabel->setText(QString::fromStdString(std::to_string(_value)));
 }
 
-void MainWindow::newFlockPressed()
+void MainWindow::newFlock()
 {
-//  m_gl->newFlock(m_ui->m_flockCount->value(),
-//                 m_ui->m_cohesion->value(),
-//                 m_ui->m_separation->value(),
-//                 m_ui->m_alignment->value(),
-//                 (m_ui->m_speed->value()/10.0));
-
-  m_gl->newFlock(50,
+  m_gl->newFlock(100,
                  20,
                  10,
                  20);
 }
+
+void MainWindow::addObstacle()
+{
+    std::string selectedObstacle = m_ui->m_obstacleType->currentText().toStdString();
+    m_gl->addObstacle(selectedObstacle);
+    std::cout<<selectedObstacle<<'\n';
+}
+
+

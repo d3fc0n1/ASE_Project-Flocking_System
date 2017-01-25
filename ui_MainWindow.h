@@ -40,8 +40,8 @@ public:
     QWidget *tab_1;
     QWidget *layoutWidget;
     QGridLayout *gridLayout_3;
-    QCheckBox *m_leader;
-    QPushButton *m_removeBoid;
+    QPushButton *m_addBoid;
+    QPushButton *m_removePredator;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QSlider *m_velocity;
@@ -50,15 +50,17 @@ public:
     QLabel *label_2;
     QSlider *m_force;
     QLabel *maxForceLabel;
-    QPushButton *m_removePredator;
+    QCheckBox *m_leader;
+    QSpinBox *m_newFlockBoidCount;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_3;
     QSlider *m_viewRadius;
     QLabel *viewRadiusLabel;
-    QPushButton *m_addBoid;
-    QPushButton *m_addPredator;
     QPushButton *m_newFlock;
-    QSpinBox *m_newFlockBoidCount;
+    QPushButton *m_addPredator;
+    QPushButton *m_removeBoid;
+    QPushButton *m_addPrey;
+    QPushButton *pushButton;
     QLabel *label_4;
     QLabel *m_boidCountStatus;
     QWidget *tab_2;
@@ -107,28 +109,33 @@ public:
         gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
-        m_leader = new QCheckBox(layoutWidget);
-        m_leader->setObjectName(QStringLiteral("m_leader"));
-        m_leader->setMinimumSize(QSize(0, 40));
+        m_addBoid = new QPushButton(layoutWidget);
+        m_addBoid->setObjectName(QStringLiteral("m_addBoid"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(m_addBoid->sizePolicy().hasHeightForWidth());
+        m_addBoid->setSizePolicy(sizePolicy1);
+        m_addBoid->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_leader, 10, 0, 1, 2);
+        gridLayout_3->addWidget(m_addBoid, 5, 0, 1, 1);
 
-        m_removeBoid = new QPushButton(layoutWidget);
-        m_removeBoid->setObjectName(QStringLiteral("m_removeBoid"));
-        m_removeBoid->setMinimumSize(QSize(0, 40));
+        m_removePredator = new QPushButton(layoutWidget);
+        m_removePredator->setObjectName(QStringLiteral("m_removePredator"));
+        m_removePredator->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_removeBoid, 5, 1, 1, 1);
+        gridLayout_3->addWidget(m_removePredator, 6, 1, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         label = new QLabel(layoutWidget);
         label->setObjectName(QStringLiteral("label"));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
         label->setMinimumSize(QSize(0, 40));
 
         horizontalLayout->addWidget(label);
@@ -176,11 +183,20 @@ public:
 
         gridLayout_3->addLayout(horizontalLayout_2, 2, 0, 1, 2);
 
-        m_removePredator = new QPushButton(layoutWidget);
-        m_removePredator->setObjectName(QStringLiteral("m_removePredator"));
-        m_removePredator->setMinimumSize(QSize(0, 40));
+        m_leader = new QCheckBox(layoutWidget);
+        m_leader->setObjectName(QStringLiteral("m_leader"));
+        m_leader->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_removePredator, 6, 1, 1, 1);
+        gridLayout_3->addWidget(m_leader, 11, 0, 1, 2);
+
+        m_newFlockBoidCount = new QSpinBox(layoutWidget);
+        m_newFlockBoidCount->setObjectName(QStringLiteral("m_newFlockBoidCount"));
+        m_newFlockBoidCount->setMinimumSize(QSize(0, 40));
+        m_newFlockBoidCount->setMinimum(1);
+        m_newFlockBoidCount->setMaximum(1000);
+        m_newFlockBoidCount->setValue(100);
+
+        gridLayout_3->addWidget(m_newFlockBoidCount, 0, 0, 1, 1);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
@@ -207,16 +223,11 @@ public:
 
         gridLayout_3->addLayout(horizontalLayout_3, 1, 0, 1, 2);
 
-        m_addBoid = new QPushButton(layoutWidget);
-        m_addBoid->setObjectName(QStringLiteral("m_addBoid"));
-        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(m_addBoid->sizePolicy().hasHeightForWidth());
-        m_addBoid->setSizePolicy(sizePolicy2);
-        m_addBoid->setMinimumSize(QSize(0, 40));
+        m_newFlock = new QPushButton(layoutWidget);
+        m_newFlock->setObjectName(QStringLiteral("m_newFlock"));
+        m_newFlock->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_addBoid, 5, 0, 1, 1);
+        gridLayout_3->addWidget(m_newFlock, 0, 1, 1, 1);
 
         m_addPredator = new QPushButton(layoutWidget);
         m_addPredator->setObjectName(QStringLiteral("m_addPredator"));
@@ -229,20 +240,23 @@ public:
 
         gridLayout_3->addWidget(m_addPredator, 6, 0, 1, 1);
 
-        m_newFlock = new QPushButton(layoutWidget);
-        m_newFlock->setObjectName(QStringLiteral("m_newFlock"));
-        m_newFlock->setMinimumSize(QSize(0, 40));
+        m_removeBoid = new QPushButton(layoutWidget);
+        m_removeBoid->setObjectName(QStringLiteral("m_removeBoid"));
+        m_removeBoid->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_newFlock, 0, 1, 1, 1);
+        gridLayout_3->addWidget(m_removeBoid, 5, 1, 1, 1);
 
-        m_newFlockBoidCount = new QSpinBox(layoutWidget);
-        m_newFlockBoidCount->setObjectName(QStringLiteral("m_newFlockBoidCount"));
-        m_newFlockBoidCount->setMinimumSize(QSize(0, 40));
-        m_newFlockBoidCount->setMinimum(1);
-        m_newFlockBoidCount->setMaximum(1000);
-        m_newFlockBoidCount->setValue(100);
+        m_addPrey = new QPushButton(layoutWidget);
+        m_addPrey->setObjectName(QStringLiteral("m_addPrey"));
+        m_addPrey->setMinimumSize(QSize(0, 40));
 
-        gridLayout_3->addWidget(m_newFlockBoidCount, 0, 0, 1, 1);
+        gridLayout_3->addWidget(m_addPrey, 7, 0, 1, 1);
+
+        pushButton = new QPushButton(layoutWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setMinimumSize(QSize(0, 40));
+
+        gridLayout_3->addWidget(pushButton, 7, 1, 1, 1);
 
         label_4 = new QLabel(tab_1);
         label_4->setObjectName(QStringLiteral("label_4"));
@@ -292,8 +306,8 @@ public:
         horizontalLayout_7->setContentsMargins(-1, -1, -1, 0);
         label_6 = new QLabel(gridLayoutWidget);
         label_6->setObjectName(QStringLiteral("label_6"));
-        sizePolicy1.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
-        label_6->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
+        label_6->setSizePolicy(sizePolicy2);
         label_6->setMinimumSize(QSize(0, 40));
 
         horizontalLayout_7->addWidget(label_6);
@@ -322,8 +336,8 @@ public:
 
         m_quit = new QPushButton(centralWidget);
         m_quit->setObjectName(QStringLiteral("m_quit"));
-        sizePolicy2.setHeightForWidth(m_quit->sizePolicy().hasHeightForWidth());
-        m_quit->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(m_quit->sizePolicy().hasHeightForWidth());
+        m_quit->setSizePolicy(sizePolicy1);
         m_quit->setMinimumSize(QSize(0, 40));
 
         gridLayout->addWidget(m_quit, 2, 1, 1, 1);
@@ -352,18 +366,20 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Flocker", 0));
-        m_leader->setText(QApplication::translate("MainWindow", "Leader", 0));
-        m_removeBoid->setText(QApplication::translate("MainWindow", "Remove Boid", 0));
+        m_addBoid->setText(QApplication::translate("MainWindow", "Add Boid", 0));
+        m_removePredator->setText(QApplication::translate("MainWindow", "Remove Predator", 0));
         label->setText(QApplication::translate("MainWindow", "Max. Velocity", 0));
         maxVelLabel->setText(QApplication::translate("MainWindow", "0", 0));
         label_2->setText(QApplication::translate("MainWindow", "Max. Force", 0));
         maxForceLabel->setText(QApplication::translate("MainWindow", "0", 0));
-        m_removePredator->setText(QApplication::translate("MainWindow", "Remove Predator", 0));
+        m_leader->setText(QApplication::translate("MainWindow", "Leader", 0));
         label_3->setText(QApplication::translate("MainWindow", "View Radius", 0));
         viewRadiusLabel->setText(QApplication::translate("MainWindow", "0", 0));
-        m_addBoid->setText(QApplication::translate("MainWindow", "Add Boid", 0));
-        m_addPredator->setText(QApplication::translate("MainWindow", "Add Predator", 0));
         m_newFlock->setText(QApplication::translate("MainWindow", "New Flock", 0));
+        m_addPredator->setText(QApplication::translate("MainWindow", "Add Predator", 0));
+        m_removeBoid->setText(QApplication::translate("MainWindow", "Remove Boid", 0));
+        m_addPrey->setText(QApplication::translate("MainWindow", "Add Prey", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "Remove Prey", 0));
         label_4->setText(QApplication::translate("MainWindow", "Boid count : ", 0));
         m_boidCountStatus->setText(QApplication::translate("MainWindow", "100", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_1), QApplication::translate("MainWindow", "Flock", 0));

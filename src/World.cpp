@@ -6,17 +6,7 @@ World::World(int _numBoids)
 {
     for(int i=0; i < _numBoids; i++)
     {
-      addBoid(80, 40, 50, 500);
-    }
-    m_octree = new Octree(ngl::Vec3::zero(), 100, 4);
-    m_obstacles.clear();
-}
-
-World::World(int _numBoids, float _cohesion, float _separation, float _alignment)
-{
-    for(int i=0; i < _numBoids; i++)
-    {
-      addBoid(_cohesion, _separation, _alignment);
+      addBoid(100, 40, 50, 500);
     }
     m_octree = new Octree(ngl::Vec3::zero(), 100, 4);
     m_obstacles.clear();
@@ -149,6 +139,15 @@ void World::setLeader(int _id)
         m_flock[i].setLeader(&m_flock[_id]);
     }
     m_flock[_id].makeLeader();
+}
+
+void World::setPredator(int _id)
+{
+    for(size_t i=0;i<m_flock.size();++i)
+    {
+        m_flock[i].setPredator(&m_flock[_id]);
+    }
+    m_flock[_id].makePredator();
 }
 
 void World::clearLeader()

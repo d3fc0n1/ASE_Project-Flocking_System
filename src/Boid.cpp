@@ -34,6 +34,10 @@ bool Boid::isLeader()
 {
     return m_isLeader;
 }
+bool Boid::isPredator()
+{
+    return m_isPredator;
+}
 int Boid::getNeighbourSize()
 {
     return m_neighbours.size();
@@ -77,6 +81,12 @@ void Boid::setLeader(Boid *_leader)
     m_leader = _leader;
     m_hasLeader = true;
 }
+void Boid::setPredator(Boid *_predator)
+{
+    m_predator = _predator;
+    m_hasLeader = false;
+    m_isLeader = false;
+}
 void Boid::setNeighbours(Boid *_boid)
 {
     m_neighbours.push_back(_boid);
@@ -113,6 +123,12 @@ void Boid::makeLeader()
   m_isLeader = true;
   m_hasLeader = false;
   m_leader = 0; //has no leader, clear pointer
+}
+void Boid::makePredator()
+{
+  m_isPredator = true;
+  m_hasLeader = false;
+  m_leader = 0;
 }
 
 //---------------------------FLOCKING RULES-----------------------------
@@ -181,7 +197,7 @@ void Boid::setSeek() //needs m_target to function
 
     m_seek = desiredVelocity - m_velocity;
 }
-void Boid::pursue(Boid *_boid) //sets a target to seek
+void Boid::pursue(Boid *_boid) //sets a target to seek - pass prey boid
 {
     ngl::Vec3 distance = _boid->getPosition() - m_position;
     int frames = distance.length() / m_maxVelocity;
@@ -196,7 +212,7 @@ void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
     desiredVelocity *= m_maxVelocity;
     m_flee = desiredVelocity - m_velocity;
 }
-void Boid::evade(Boid *_boid) //sets a target for fleeing
+void Boid::evade(Boid *_boid) //sets a target for fleeing- pass predator boid
 {
     ngl::Vec3 distance = _boid->getPosition() - m_position;
     int frames = distance.length() / m_maxVelocity;

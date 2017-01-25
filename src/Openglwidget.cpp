@@ -295,7 +295,7 @@ void OpenGLWidget::paintGL()
     {
         if(m_world->m_flock[i].isLeader())
         {
-            m_tx.setScale(2,2,2);
+            m_tx.setScale(3,3,3);
         }
         else
         {
@@ -445,10 +445,10 @@ void OpenGLWidget::timerEvent(QTimerEvent *)
     update();
 }
 
-void OpenGLWidget::newFlock(int _numBoids, float _cohesion, float _separation, float _alignment)
+void OpenGLWidget::newFlock(int _numBoids)
 {
     delete m_world;
-    m_world=new World(_numBoids, _cohesion, _separation, _alignment);
+    m_world=new World(_numBoids);
     setFocus();
 }
 

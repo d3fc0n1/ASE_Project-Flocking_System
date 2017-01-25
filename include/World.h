@@ -17,8 +17,14 @@ public:
 
     void addBoid(float _cohesionWeight, float _separationWeight, float _alignmentWeight, float _avoidWeight = 500);
     void removeBoid();
+
+    void addObstacle(std::string _obstacleShape);
+    void removeObstacle();
+    void updateObstacleSize(float _size);
+
     int getSize();
     void setCentroid();
+    void avoidObstacles();
     void setNeighbours(int _id);
     void updateWorld();
     void setLeader(int _id);
@@ -27,16 +33,11 @@ public:
     std::vector<Boid> m_flock;
     std::vector<Obstacle> m_obstacles;
     std::random_device m_rd;
-
-    //void addPredator(); //later
-
-    //void removePredator(); //later
+    void setPredator(int _id);
+    void removePredator();
 
     //void setPrey() //could be set to leader boid
-    void addObstacle(std::string _obstacleShape);
-    void removeObstacle();
-    void updateObstacleSize(float _size);
-    void avoidObstacles();
+
 
 private:
 

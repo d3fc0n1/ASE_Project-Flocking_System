@@ -20,7 +20,7 @@ class OpenGLWidget : public QOpenGLWidget
 public:
     OpenGLWidget(QWidget *_parent);
     ~OpenGLWidget();
-    void newFlock(int _numBoids, float _cohesion, float _separation, float _alignment);
+    void newFlock(int _numBoids);
 
 
 public slots:

@@ -17,6 +17,7 @@ public:
     float getViewRadius();
     float getAvoidRadius();
     bool isLeader();
+    bool isPredator();
     int getNeighbourSize();
 
     //void setSpeed(int _speed);
@@ -27,11 +28,13 @@ public:
     void setPosition(ngl::Vec3 _position);
     void setVelocity(ngl::Vec3 _velocity);
     void setLeader(Boid *_leader);
+    void setPredator(Boid *_predator);
     void setNeighbours(Boid *_boid);
     void setCentroid();
     void clearNeighbours();
     void clearLeader();
     void makeLeader();
+    void makePredator();
 
     void setCohesion();
     void setAlignment();
@@ -66,7 +69,7 @@ private:
     ngl::Vec3 m_target; // target vector
     float m_slowingRadius = 10.0f; //slowing radius
     float m_maxVelocity = 5.0f; //multiplier for maximum velocity
-    float m_wanderSphereDistance = 5.0f;
+    float m_wanderSphereDistance = 20.0f;
     float m_wanderSphereRadius = 2.0f;
     float m_wanderAngle = ngl::Random::instance()->randomNumber() * 10;
     float m_wanderAzimuth = ngl::Random::instance()->randomNumber() * 5;
@@ -99,6 +102,7 @@ private:
 
     bool m_isLeader; // flag for leader boid
     bool m_hasLeader;
+    bool m_isPredator;
 
     Boid *m_leader; //leader boid to follow
     Boid *m_predator; //predator boid to flee;

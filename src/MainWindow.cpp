@@ -56,7 +56,7 @@ void MainWindow::updateViewRadius(int _value)
 
 void MainWindow::newFlock()
 {
-    m_gl->newFlock(m_ui->m_newFlockBoidCount->value(),20,10,20);
+    m_gl->newFlock(m_ui->m_newFlockBoidCount->value());
 }
 
 void MainWindow::addObstacle()

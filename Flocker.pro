@@ -23,7 +23,7 @@ SOURCES += $$PWD/src/main.cpp \
            $$PWD/src/MainWindow.cpp \
            $$PWD/src/World.cpp \
            $$PWD/src/Octree.cpp \
-    include/Obstacle.cpp
+    	   $$PWD/src/Obstacle.cpp
 
 HEADERS  += $$PWD/include/Boid.h \
             $$PWD/include/WindowParams.h \
@@ -31,8 +31,8 @@ HEADERS  += $$PWD/include/Boid.h \
             $$PWD/include/MainWindow.h \
             $$PWD/include/World.h \
             $$PWD/include/Octree.h \
-    include/OctreePoint.h \
-    include/Obstacle.h
+            $$PWD/include/OctreePoint.h \
+            $$PWD/include/Obstacle.h
 
 FORMS   +=  $$PWD/ui/MainWindow.ui
 

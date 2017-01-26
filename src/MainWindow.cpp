@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), m_ui(new Ui::MainW
     connect(m_ui->m_addObstacle, SIGNAL(clicked(bool)), this, SLOT(addObstacle()));
     connect(m_ui->m_obstacleSize, SIGNAL(valueChanged(int)), this, SLOT(updateObstacleSize(int)));
     connect(m_ui->m_removeObstacle, SIGNAL(clicked(bool)), this, SLOT(removeObstacle()));
+    connect(m_ui->m_addPredator, SIGNAL(clicked(bool)), this, SLOT(setPredator()));
 }
 
 MainWindow::~MainWindow()
@@ -80,4 +81,8 @@ void MainWindow::updateObstacleSize(int _size)
 void MainWindow::toggleLeader(bool _leaderState)
 {
     m_gl->toggleLeader(_leaderState);
+}
+void MainWindow::setPredator()
+{
+    m_gl->setPredator();
 }

@@ -96,7 +96,7 @@ void OpenGLWidget::initializeGL()
     // transformations
 
 
-    m_world = new World(100);
+    m_world = new World(500);
 
     m_obstacle = ngl::VAOPrimitives::instance();
 
@@ -173,26 +173,26 @@ void OpenGLWidget::buildBoidVAO()
         //top left
         ngl::Vec3(0,0,-3),
         ngl::Vec3(-3,0,4.5),
-        ngl::Vec3(0,0.6,3),
+        ngl::Vec3(0,2,3),
         //top right
         ngl::Vec3(0,0,-3),
-        ngl::Vec3(0,0.6,3),
+        ngl::Vec3(0,2,3),
         ngl::Vec3(3,0,4.5),
         //bottom left
         ngl::Vec3(0,0,-3),
-        ngl::Vec3(0,-0.6,3),
+        ngl::Vec3(0,-2,3),
         ngl::Vec3(-3,0,4.5),
         //bottom right
         ngl::Vec3(3,0,4.5),
         ngl::Vec3(0,-0.6,3),
         ngl::Vec3(0,0,-3),
         //rear left
-        ngl::Vec3(0,0.6,3),
+        ngl::Vec3(0,2,3),
         ngl::Vec3(-3,0,4.5),
-        ngl::Vec3(0,-0.6,3),
+        ngl::Vec3(0,-2,3),
         //rear right
-        ngl::Vec3(0,0.6,3),
-        ngl::Vec3(0,-0.6,3),
+        ngl::Vec3(0,2,3),
+        ngl::Vec3(0,-2,3),
         ngl::Vec3(3,0,4.5)
 
     };
@@ -293,7 +293,7 @@ void OpenGLWidget::paintGL()
 
     for (int i = 0; i < m_world->getSize(); ++i)
     {
-        if(m_world->m_flock[i].isLeader())
+        if(m_world->m_flock[i].isLeader() || m_world->m_flock[i].isPredator())
         {
             m_tx.setScale(3,3,3);
         }
@@ -322,7 +322,6 @@ void OpenGLWidget::paintGL()
         loadMatrices();
         m_obstacle->draw(m_world->m_obstacles[i].getShape());
     }
-    m_world->avoidObstacles();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -502,6 +501,11 @@ void OpenGLWidget::toggleLeader(bool _leaderState)
         m_leader = _leaderState;;
     }
     setFocus();
+}
+
+void OpenGLWidget::setPredator()
+{
+    m_world->setPredator();
 }
 
 void OpenGLWidget::addObstacle(std::string _obstacleType)

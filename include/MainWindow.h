@@ -25,6 +25,7 @@ public slots:
     void addObstacle();
     void removeObstacle();
     void toggleLeader(bool _leaderState);
+    void setPredator();
 private:
     Ui::MainWindow *m_ui;
     OpenGLWidget *m_gl;

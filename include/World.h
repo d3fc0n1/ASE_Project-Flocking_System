@@ -33,7 +33,7 @@ public:
     std::vector<Boid> m_flock;
     std::vector<Obstacle> m_obstacles;
     std::random_device m_rd;
-    void setPredator(int _id);
+    void setPredator();
     void removePredator();
 
     //void setPrey() //could be set to leader boid

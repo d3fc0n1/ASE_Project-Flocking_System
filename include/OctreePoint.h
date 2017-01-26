@@ -6,6 +6,8 @@
 
 class OctreePoint {
 
+
+
 public:
 
     OctreePoint() { }
@@ -20,7 +22,7 @@ public:
     {
         m_data = _data;
     }
-
+private:
     ngl::Vec4 m_data;
 };
 

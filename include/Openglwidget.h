@@ -25,6 +25,7 @@ public:
 
 public slots:
     void toggleLeader(bool _leaderState);
+    void setPredator();
     void addObstacle(std::string _obstacleType);
     void removeObstacle();
     void updateObstacleSize(float _size);

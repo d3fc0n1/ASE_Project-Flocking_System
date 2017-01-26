@@ -41,23 +41,23 @@ public:
     void setSeparation();
 
     void setSeek();
-    void pursue(Boid *_boid);
+    void setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity);
 
     void setFlee(ngl::Vec3 _fleePosition);
     void evade(Boid *_boid);
 
     void setWander();
-    void setAvoid(ngl::Vec3 _obstaclePosition, float _obstacleRadius);
+    void setAvoid();
     void setFollow();
 
+    void setTarget();
     void setSteering();
-
     void move();
     void rotate();
 
     void fleeWalls();
 
-    bool pathInterectsSphere(ngl::Vec3 ahead, ngl::Vec3 halfAhead, ngl::Vec3 _threatPosition, float _radius);
+    void pathIntersectsSphere(ngl::Vec3 _obstaclePosition, float _obstacleSize);
 
 private:
 
@@ -67,38 +67,38 @@ private:
     ngl::Vec3 m_velocity; //velocity vector
     ngl::Vec3 m_centroid; //local flock center
     ngl::Vec3 m_target; // target vector
-    float m_slowingRadius = 10.0f; //slowing radius
-    float m_maxVelocity = 5.0f; //multiplier for maximum velocity
-    float m_wanderSphereDistance = 20.0f;
-    float m_wanderSphereRadius = 2.0f;
-    float m_wanderAngle = ngl::Random::instance()->randomNumber() * 10;
-    float m_wanderAzimuth = ngl::Random::instance()->randomNumber() * 5;
-    float m_wanderAngleChange = 2.0f;
-    float m_wanderAzimuthChange = 4.0f;
-    float m_avoidRadius = 10.0f; // radius of avoidance sphere of the boid
-    float m_avoidWeight; //avoidance force weight
-    float m_cohesionWeight; //cohesion weight
-    float m_alignmentWeight; //alignment weight
-    float m_separationWeight; //separation weight
-    float m_maxSeeAhead = 20.0f;// maximum see-ahead distance
-    float m_leaderFollowDistance = 5.0f; //leader follow distance
-    float m_viewRadius = 30.0f;//view to find leader
-    float m_separationRadius = 20.f;//separation radius
-
-    float m_roll; //rotation about x axis -180 to 180
-    float m_pitch; //rotation about y axis -90 to 90
-    float m_yaw; //rotation about z axis -180 to 180
-
     ngl::Vec3 m_separation; //separation force vector
     ngl::Vec3 m_alignment; //alignment force vector
     ngl::Vec3 m_cohesion; //cohesion force vector
-    ngl::Vec3 m_seek; //seek vector
+    ngl::Vec3 m_pursuit; //pursuit vector
     ngl::Vec3 m_flee; //flee vector
     ngl::Vec3 m_wander; //wander vector
     ngl::Vec3 m_avoid;//collision avoidance vector;
     ngl::Vec3 m_follow;//leader following vector
     ngl::Vec3 m_threatPosition;//position vector of the most threatening object in path- obstacle or other boids.
     ngl::Vec3 m_steering; //sum of all steering vectors
+
+    float m_slowingRadius; //slowing radius
+    float m_maxVelocity; //multiplier for maximum velocity
+    float m_wanderSphereDistance; //increase to reduce jitter
+    float m_wanderSphereRadius;
+    float m_wanderAngle;
+    float m_wanderAzimuth;
+    float m_wanderAngleChange;
+    float m_wanderAzimuthChange;
+    float m_avoidRadius; // radius of avoidance sphere of the boid
+    float m_avoidWeight; //avoidance force weight
+    float m_cohesionWeight; //cohesion weight
+    float m_alignmentWeight; //alignment weight
+    float m_separationWeight; //separation weight
+    float m_maxSeeAhead;// maximum see-ahead distance
+    float m_leaderFollowDistance; //leader follow distance
+    float m_viewRadius;//view to find leader
+    float m_separationRadius;//separation radius
+
+    float m_roll; //rotation about x axis -180 to 180
+    float m_pitch; //rotation about y axis -90 to 90
+    float m_yaw; //rotation about z axis -180 to 180
 
     bool m_isLeader; // flag for leader boid
     bool m_hasLeader;

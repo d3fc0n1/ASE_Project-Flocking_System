@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[13];
-    char stringdata0[156];
+    QByteArrayData data[14];
+    char stringdata0[168];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,14 +41,15 @@ QT_MOC_LITERAL(8, 94, 8), // "newFlock"
 QT_MOC_LITERAL(9, 103, 11), // "addObstacle"
 QT_MOC_LITERAL(10, 115, 14), // "removeObstacle"
 QT_MOC_LITERAL(11, 130, 12), // "toggleLeader"
-QT_MOC_LITERAL(12, 143, 12) // "_leaderState"
+QT_MOC_LITERAL(12, 143, 12), // "_leaderState"
+QT_MOC_LITERAL(13, 156, 11) // "setPredator"
 
     },
     "MainWindow\0updateMaxVelocity\0\0_value\0"
     "updateMaxForce\0updateViewRadius\0"
     "updateObstacleSize\0_size\0newFlock\0"
     "addObstacle\0removeObstacle\0toggleLeader\0"
-    "_leaderState"
+    "_leaderState\0setPredator"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,7 +59,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,14 +67,15 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   54,    2, 0x0a /* Public */,
-       4,    1,   57,    2, 0x0a /* Public */,
-       5,    1,   60,    2, 0x0a /* Public */,
-       6,    1,   63,    2, 0x0a /* Public */,
-       8,    0,   66,    2, 0x0a /* Public */,
-       9,    0,   67,    2, 0x0a /* Public */,
-      10,    0,   68,    2, 0x0a /* Public */,
-      11,    1,   69,    2, 0x0a /* Public */,
+       1,    1,   59,    2, 0x0a /* Public */,
+       4,    1,   62,    2, 0x0a /* Public */,
+       5,    1,   65,    2, 0x0a /* Public */,
+       6,    1,   68,    2, 0x0a /* Public */,
+       8,    0,   71,    2, 0x0a /* Public */,
+       9,    0,   72,    2, 0x0a /* Public */,
+      10,    0,   73,    2, 0x0a /* Public */,
+      11,    1,   74,    2, 0x0a /* Public */,
+      13,    0,   77,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -84,6 +86,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Bool,   12,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -102,6 +105,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->addObstacle(); break;
         case 6: _t->removeObstacle(); break;
         case 7: _t->toggleLeader((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: _t->setPredator(); break;
         default: ;
         }
     }
@@ -132,13 +136,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

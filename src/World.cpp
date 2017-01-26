@@ -6,23 +6,10 @@ World::World(int _numBoids)
 {
     for(int i=0; i < _numBoids; i++)
     {
-      addBoid(100, 40, 50, 500);
+      addBoid(200, 40, 50, 500);
     }
     m_octree = new Octree(ngl::Vec3::zero(), 100, 4);
     m_obstacles.clear();
-}
-
-void World::updateOctree()
-{
-    delete m_octree;
-    m_octree=new Octree(ngl::Vec3::zero(), 100, 4);
-    //ngl::Vec4 data;//boid x, y, z, ID
-    m_octreePoints = new OctreePoint[m_flock.size()];
-    for(size_t i=0; i < m_flock.size(); ++i)
-    {
-        m_octreePoints[i].setData(ngl::Vec4(m_flock[i].getPosition().m_x, m_flock[i].getPosition().m_y,  m_flock[i].getPosition().m_z, m_flock[i].getId()));
-        m_octree->insert(m_octreePoints + i);
-    }
 }
 
 World::~World()
@@ -44,6 +31,53 @@ void World::addBoid(float _cohesionWeight, float _separationWeight, float _align
     boid.setAlignmentWeight(_alignmentWeight);
     boid.setAvoidWeight(_avoidWeight);
     m_flock.push_back(boid);
+}
+
+void World::updateWorld()
+{
+    updateOctree();
+    for(size_t i = 0; i < m_flock.size(); ++i)
+    {
+      setNeighbours(i);
+
+      for (size_t j = 0; j < m_obstacles.size(); ++j)
+      {
+          m_flock[i].pathIntersectsSphere(m_obstacles[j].getPosition(), m_obstacles[j].getSize() + 50);
+      }
+      m_flock[i].move();
+    } 
+
+}
+
+void World::setNeighbours(int _id)
+{
+    m_flock[_id].clearNeighbours();
+    ngl::Vec3 boxMin(m_flock[_id].getPosition() - ngl::Vec3(m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius()));
+    ngl::Vec3 boxMax(m_flock[_id].getPosition() + ngl::Vec3(m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius()));
+    std::vector<OctreePoint*> results;
+    m_octree->getPointsInsideBox(boxMin, boxMax, results);
+    for(size_t i=0;i<results.size();++i)
+    {
+        int neighbourId = static_cast<int>(results[i]->getData().m_w);
+        // neighbours shoud not affect the leader's path.
+        if (neighbourId != _id && m_flock[_id].isLeader() != true)
+        {
+            m_flock[_id].setNeighbours(&m_flock[neighbourId]);
+        }
+    }
+
+}
+
+void World::updateOctree()
+{
+    delete m_octree;
+    m_octree=new Octree(ngl::Vec3::zero(), 100, 4);
+    m_octreePoints = new OctreePoint[m_flock.size()];
+    for(size_t i=0; i < m_flock.size(); ++i)
+    {
+        m_octreePoints[i].setData(ngl::Vec4(m_flock[i].getPosition().m_x, m_flock[i].getPosition().m_y,  m_flock[i].getPosition().m_z, m_flock[i].getId()));
+        m_octree->insert(m_octreePoints + i);
+    }
 }
 
 void World::addObstacle(std::string _obstacleShape)
@@ -76,37 +110,6 @@ void World::removeBoid()
     }
 }
 
-void World::avoidObstacles()
-{
-    for (size_t i=0; i<m_obstacles.size(); ++i)
-    {
-        m_flock[i].setAvoid(m_obstacles[i].getPosition(), m_obstacles[i].getSize());
-    }
-}
-
-void World::setNeighbours(int _id)
-{
-    m_flock[_id].clearNeighbours();
-    ngl::Vec3 boxMin(m_flock[_id].getPosition() - ngl::Vec3(m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius()));
-    ngl::Vec3 boxMax(m_flock[_id].getPosition() + ngl::Vec3(m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius(), m_flock[_id].getViewRadius()));
-    std::vector<OctreePoint*> results;
-    m_octree->getPointsInsideBox(boxMin, boxMax, results);
-    for(size_t i=0;i<results.size();++i)
-    {
-        // the neighbour id is the 4th element of the m_data vector
-        int neighbourId = static_cast<int>(results[i]->m_data.m_w);
-        // set the boid to be a neighbour only if it is not the boid
-        // being queried and it is not a leader. Leader only wanders
-        // neighbours shoud not affect the leader's path.
-        if (neighbourId != _id && m_flock[_id].isLeader() != true)
-        {
-            m_flock[_id].setNeighbours(&m_flock[neighbourId - 1]);//ID starts with 1
-        }
-        //std::cout<<"Boid "<<_id<<" neighbour size :"<<m_flock[_id].getNeighbourSize()<<'\n';
-    }
-
-}
-
 //centroid for whole flock
 void World::setCentroid()
 {
@@ -122,16 +125,6 @@ int World::getSize()
     return m_flock.size();
 }
 
-void World::updateWorld()
-{
-    updateOctree();
-    for(size_t i = 0; i < m_flock.size(); ++i)
-    {
-      setNeighbours(i);
-      m_flock[i].move();
-    }
-}
-
 void World::setLeader(int _id)
 {
     for(size_t i=0;i<m_flock.size();++i)
@@ -141,13 +134,13 @@ void World::setLeader(int _id)
     m_flock[_id].makeLeader();
 }
 
-void World::setPredator(int _id)
+void World::setPredator()
 {
-    for(size_t i=0;i<m_flock.size();++i)
+    for(size_t i=0;i<m_flock.size() - 1;++i)//all except last ID
     {
-        m_flock[i].setPredator(&m_flock[_id]);
+        m_flock[i].setPredator(&m_flock[m_flock.size() - 1]);//set last ID as predator
     }
-    m_flock[_id].makePredator();
+    m_flock[m_flock.size() - 1].makePredator();
 }
 
 void World::clearLeader()

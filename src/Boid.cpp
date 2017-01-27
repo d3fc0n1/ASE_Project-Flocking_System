@@ -1,6 +1,7 @@
 #include "Boid.h"
 #include <math.h>
 #include <iostream>
+#include <ngl/Random.h>
 //-------------------------------CTOR----------------------------------
 Boid::Boid(int _id)
 {
@@ -228,7 +229,7 @@ void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
     {
         desiredVelocity *= m_maxVelocity;
     }
-    m_pursuit = desiredVelocity - m_velocity;
+    m_pursuit = desiredVelocity - m_velocity; //CHECK THIS - INCLUDING SEEK?
 }
 void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
 {
@@ -350,7 +351,7 @@ void Boid::setSteering()
     setAvoid();
 
     //if (m_predator != 0) evade(m_predator);
-    m_steering = m_cohesion + m_alignment + m_separation + m_flee + m_avoid; //basic rules, common for all.
+    m_steering = m_flee + m_avoid; //basic rules, common for all.
 
     if(m_isLeader)
     {
@@ -359,6 +360,8 @@ void Boid::setSteering()
     }
     else //not leader
     {
+        m_steering += m_cohesion + m_alignment + m_separation;
+
         if(m_hasLeader)
         {
             setFollow();
@@ -381,8 +384,16 @@ void Boid::setSteering()
             }
             else
             {
-                setWander();
-                m_steering += m_wander;
+//                if (m_predator == nullptr)
+//                {
+//                    evade(m_predator);
+//                    m_steering += m_flee;
+//                }
+//                else
+//                {
+                    setWander();
+                    m_steering += m_wander;
+//                }
             }
         }
     }

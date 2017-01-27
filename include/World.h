@@ -11,11 +11,11 @@
 class World
 {
 public:
-    World(int _numBoids);
+    World(int _numBoids, bool _randomizeInitialPosition);
     World(int _numBoids, float _cohesion, float _separation, float _alignment);
     ~World();
 
-    void addBoid(float _cohesionWeight, float _separationWeight, float _alignmentWeight, float _avoidWeight = 500);
+    void addBoid(bool _randomizeInitialPosition);
     void removeBoid();
 
     void addObstacle(std::string _obstacleShape);

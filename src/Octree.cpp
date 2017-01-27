@@ -8,6 +8,7 @@ Octree::Octree(ngl::Vec3 _origin, float _halfDimension, int _height)
     m_halfDimension = _halfDimension;
     m_children.clear();
     m_height = _height;
+    m_data = nullptr;
 }
 
 Octree::Octree(const Octree &_octree)
@@ -60,15 +61,12 @@ void Octree::insert(OctreePoint *_point)
                 Octree * child  = new Octree (newOrigin, m_halfDimension * 0.5f, m_height - 1);
                 m_children.push_back(child);
             }
-            std::cout<<"if oldPoint = ("<<oldPoint->getData().m_x<<","<<oldPoint->getData().m_y<<","<<oldPoint->getData().m_z<<","<<oldPoint->getData().m_w<<")\n";
-            std::cout<<"if Point = ("<<_point->getData().m_x<<","<<_point->getData().m_y<<","<<_point->getData().m_z<<","<<_point->getData().m_w<<")\n";
             m_children[getOctantContainingPoint(oldPoint->getData().toVec3())]->insert(oldPoint);
             m_children[getOctantContainingPoint(_point->getData().toVec3())]->insert(_point);
         }
     }
     else
     {
-        std::cout<<"else Point = ("<<_point->getData().m_x<<","<<_point->getData().m_y<<","<<_point->getData().m_z<<","<<_point->getData().m_w<<")\n";
         int octant = getOctantContainingPoint(_point->getData().toVec3());
         m_children[octant]->insert(_point);
     }

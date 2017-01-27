@@ -2,11 +2,11 @@
 #include <ngl/Random.h>
 #include <iostream>
 
-World::World(int _numBoids)
+World::World(int _numBoids, bool _randomizeInitialPosition)
 {
     for(int i=0; i < _numBoids; i++)
     {
-      addBoid(200, 40, 50, 500);
+      addBoid(_randomizeInitialPosition);
     }
     m_octree = new Octree(ngl::Vec3::zero(), 100, 4);
     m_obstacles.clear();
@@ -18,18 +18,25 @@ World::~World()
     m_flock.clear();
 }
 
-void World::addBoid(float _cohesionWeight, float _separationWeight, float _alignmentWeight, float _avoidWeight)
+void World::addBoid(bool _randomizeInitialPosition)
 {
     Boid boid(m_flock.size() + 1);
     ngl::Vec3 randomVelocity = ngl::Random::instance()->getRandomVec3();
-    ngl::Vec3 randomPosition = ngl::Random::instance()->getRandomVec3() * 100;
 
-    boid.setPosition(randomPosition);
+    if (_randomizeInitialPosition)
+    {
+        boid.setPosition(ngl::Random::instance()->getRandomVec3() * 100);
+    }
+    else
+    {
+        boid.setPosition(ngl::Vec3::zero());
+    }
+
     boid.setVelocity(randomVelocity);
-    boid.setCohesionWeight(_cohesionWeight);
-    boid.setSeparationWeight(_separationWeight);
-    boid.setAlignmentWeight(_alignmentWeight);
-    boid.setAvoidWeight(_avoidWeight);
+    //boid.setCohesionWeight(_cohesionWeight);
+    //boid.setSeparationWeight(_separationWeight);
+    //boid.setAlignmentWeight(_alignmentWeight);
+    //boid.setAvoidWeight(_avoidWeight);
     m_flock.push_back(boid);
 }
 

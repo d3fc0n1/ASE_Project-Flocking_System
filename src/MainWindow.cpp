@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), m_ui(new Ui::MainW
     m_ui->m_obstacleType->addItem("cube");
     m_ui->m_obstacleType->addItem("troll");
 
+    m_ui->m_initialPosition->addItem("Center");
+    m_ui->m_initialPosition->addItem("Random");
+
     connect(m_ui->m_newFlock,SIGNAL(pressed()),this,SLOT(newFlock()));
     connect(m_ui->m_velocity, SIGNAL(valueChanged(int)), this, SLOT(updateMaxVelocity(int)));
     connect(m_ui->m_force, SIGNAL(valueChanged(int)), this, SLOT(updateMaxForce(int)));
@@ -57,7 +60,7 @@ void MainWindow::updateViewRadius(int _value)
 
 void MainWindow::newFlock()
 {
-    m_gl->newFlock(m_ui->m_newFlockBoidCount->value());
+    m_gl->newFlock(m_ui->m_newFlockBoidCount->value(), m_ui->m_initialPosition->currentIndex());
 }
 
 void MainWindow::addObstacle()

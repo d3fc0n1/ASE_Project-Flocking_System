@@ -96,7 +96,7 @@ void OpenGLWidget::initializeGL()
     // transformations
 
 
-    m_world = new World(500);
+    m_world = new World(500, true);
 
     m_obstacle = ngl::VAOPrimitives::instance();
 
@@ -287,8 +287,6 @@ void OpenGLWidget::paintGL()
     m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
     m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
 
-
-
     m_boidVAO->bind();
 
     for (int i = 0; i < m_world->getSize(); ++i)
@@ -426,9 +424,9 @@ void OpenGLWidget::keyPressEvent(QKeyEvent *_event)
     update();
 }
 
-void OpenGLWidget::addBoid(float _cohesion, float _separation, float _alignment)
+void OpenGLWidget::addBoid(bool _randomizeInitialPosition)
 {
-    m_world->addBoid(_cohesion, _separation, _alignment);
+    m_world->addBoid(_randomizeInitialPosition);
     setFocus();
 }
 
@@ -444,10 +442,10 @@ void OpenGLWidget::timerEvent(QTimerEvent *)
     update();
 }
 
-void OpenGLWidget::newFlock(int _numBoids)
+void OpenGLWidget::newFlock(int _numBoids, bool _randomizeInitialPosition)
 {
     delete m_world;
-    m_world=new World(_numBoids);
+    m_world=new World(_numBoids, _randomizeInitialPosition);
     setFocus();
 }
 

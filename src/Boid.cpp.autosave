@@ -228,7 +228,7 @@ void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
     {
         desiredVelocity *= m_maxVelocity;
     }
-    m_pursuit = desiredVelocity - m_velocity;
+    m_pursuit = desiredVelocity - m_velocity; //CHECK THIS - INCLUDING SEEK?
 }
 void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
 {

@@ -232,6 +232,7 @@ public:
     /// @return
     //----------------------------------------------------------------------------------------------------------------------
     void pathIntersectsSphere(ngl::Vec3 _obstaclePosition, float _obstacleSize);
+    void setId(int _id);
 
 private:
 

@@ -154,7 +154,7 @@ public:
 
         m_newFlockBoidCount = new QSpinBox(layoutWidget);
         m_newFlockBoidCount->setObjectName(QStringLiteral("m_newFlockBoidCount"));
-        m_newFlockBoidCount->setMinimumSize(QSize(0, 40));
+        m_newFlockBoidCount->setMinimumSize(QSize(0, 20));
         m_newFlockBoidCount->setMinimum(1);
         m_newFlockBoidCount->setMaximum(1000);
         m_newFlockBoidCount->setValue(100);

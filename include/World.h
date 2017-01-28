@@ -17,7 +17,7 @@ public:
 
     void addBoid(bool _randomizeInitialPosition);
     void removeBoid();
-
+    void dropBoid(int _id);
     void addObstacle(std::string _obstacleShape);
     void removeObstacle();
     void updateObstacleSize(float _size);
@@ -40,7 +40,6 @@ public:
 
 
 private:
-
     Octree *m_octree;
     OctreePoint *m_octreePoints;
     ngl::Vec3 m_centroid;

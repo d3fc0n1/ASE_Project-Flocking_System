@@ -166,6 +166,7 @@ void OpenGLWidget::buildBoundingBoxVAO()
 
     m_boundingBoxVAO->unbind();
 }
+
 void OpenGLWidget::buildBoidVAO()
 {
     std::vector<ngl::Vec3> verts =
@@ -251,10 +252,10 @@ void OpenGLWidget::loadMatrices()
     ngl::ShaderLib *shader=ngl::ShaderLib::instance();
     (*shader)["Phong"]->use();
 
+    ngl::Mat4 M;
     ngl::Mat4 MV;
     ngl::Mat4 MVP;
     ngl::Mat3 normalMatrix;
-    ngl::Mat4 M;
 
     M= m_tx.getMatrix() * m_mouseGlobalTX;
     MV=  M*m_cam.getViewMatrix();
@@ -304,6 +305,7 @@ void OpenGLWidget::paintGL()
         loadMatrices();
         m_boidVAO->draw();
     }
+
     m_boidVAO->unbind();
     m_tx.reset();
     loadMatrices();
@@ -320,6 +322,8 @@ void OpenGLWidget::paintGL()
         loadMatrices();
         m_obstacle->draw(m_world->m_obstacles[i].getShape());
     }
+
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -361,6 +365,20 @@ void OpenGLWidget::mousePressEvent( QMouseEvent* _event )
         m_win.origX  = _event->x();
         m_win.origY  = _event->y();
         m_win.rotate = true;
+
+//        for (size_t i = 0; i < m_world->m_flock.size(); ++i)
+//        {
+//            float boidXOnScreen = m_world->m_flock[i].getPosition().m_x * ((m_world->m_flock[i].getPosition().m_z - 350)/m_world->m_flock[i].getPosition().m_z); //camera at 0,50,350
+//            float boidYOnScreen = ((m_world->m_flock[i].getPosition().m_y - 50) * ((m_world->m_flock[i].getPosition().m_z - 350)/m_world->m_flock[i].getPosition().m_z)) + 50;
+
+//            //consider camera position for projecting boid XY to plane on screen.
+//            if ((boidXOnScreen < m_win.origX + 5 && boidXOnScreen > m_win.origX - 5) ||
+//                    (boidYOnScreen < m_win.origY + 5 && boidYOnScreen > m_win.origY - 5))
+//            {
+
+//                m_world->dropBoid(m_world->m_flock[i].getId());
+//            }
+//        }
     }
     // right mouse translate mode
     else if ( _event->button() == Qt::RightButton )

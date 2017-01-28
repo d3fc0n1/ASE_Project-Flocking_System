@@ -40,20 +40,24 @@ void World::addBoid(bool _randomizeInitialPosition)
     m_flock.push_back(boid);
 }
 
+void World::dropBoid(int _id)
+{
+    m_flock[_id - 1].setId(0);
+}
+
 void World::updateWorld()
 {
     updateOctree();
     for(size_t i = 0; i < m_flock.size(); ++i)
     {
-      setNeighbours(i);
+        setNeighbours(i);
 
-      for (size_t j = 0; j < m_obstacles.size(); ++j)
-      {
-          m_flock[i].pathIntersectsSphere(m_obstacles[j].getPosition(), m_obstacles[j].getSize() + 50);
-      }
-      m_flock[i].move();
-    } 
-
+        for (size_t j = 0; j < m_obstacles.size(); ++j)
+        {
+            m_flock[i].pathIntersectsSphere(m_obstacles[j].getPosition(), m_obstacles[j].getSize() + 50);
+        }
+        m_flock[i].move();
+    }
 }
 
 void World::setNeighbours(int _id)

@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Flocker1.0.0
-DISTDIR = /Users/Vijin/ASE/Project/Flocker_live_no\ avoid_no\ flocking/.tmp/Flocker1.0.0
+DISTDIR = /Users/Vijin/ASE/Project/Flocker_live/.tmp/Flocker1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -stdlib=libc++ -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk -mmacosx-version-min=10.8 -Wl,-rpath,@loader_path/L/Users/Vijin/NGL/lib -Wl,-rpath,/Users/Vijin/NGL/lib -Wl,-rpath,/Users/Vijin/Qt/5.7/clang_64/lib
 LIBS          = $(SUBLIBS) -F/Users/Vijin/Qt/5.7/clang_64/lib -L/usr/local/lib -L/Users/Vijin/NGL/lib -l NGL -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL 
@@ -487,13 +487,12 @@ moc_Openglwidget.cpp: /Users/Vijin/NGL/include/ngl/Camera.h \
 		include/WindowParams.h \
 		include/World.h \
 		include/Boid.h \
-		/Users/Vijin/NGL/include/ngl/Random.h \
 		include/Octree.h \
 		include/OctreePoint.h \
 		include/Obstacle.h \
 		include/Openglwidget.h \
 		/Users/Vijin/Qt/5.7/clang_64/bin/moc
-	/Users/Vijin/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/Vijin/Qt/5.7/clang_64/mkspecs/macx-clang -I'/Users/Vijin/ASE/Project/Flocker_live_no avoid_no flocking' -I'/Users/Vijin/ASE/Project/Flocker_live_no avoid_no flocking/include' -I/usr/local/include -I/Users/Vijin/NGL/include -I/Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/Vijin/Qt/5.7/clang_64/lib include/Openglwidget.h -o moc_Openglwidget.cpp
+	/Users/Vijin/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/Vijin/Qt/5.7/clang_64/mkspecs/macx-clang -I/Users/Vijin/ASE/Project/Flocker_live -I/Users/Vijin/ASE/Project/Flocker_live/include -I/usr/local/include -I/Users/Vijin/NGL/include -I/Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/Vijin/Qt/5.7/clang_64/lib include/Openglwidget.h -o moc_Openglwidget.cpp
 
 moc_MainWindow.cpp: /Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
@@ -526,13 +525,12 @@ moc_MainWindow.cpp: /Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers
 		include/WindowParams.h \
 		include/World.h \
 		include/Boid.h \
-		/Users/Vijin/NGL/include/ngl/Random.h \
 		include/Octree.h \
 		include/OctreePoint.h \
 		include/Obstacle.h \
 		include/MainWindow.h \
 		/Users/Vijin/Qt/5.7/clang_64/bin/moc
-	/Users/Vijin/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/Vijin/Qt/5.7/clang_64/mkspecs/macx-clang -I'/Users/Vijin/ASE/Project/Flocker_live_no avoid_no flocking' -I'/Users/Vijin/ASE/Project/Flocker_live_no avoid_no flocking/include' -I/usr/local/include -I/Users/Vijin/NGL/include -I/Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/Vijin/Qt/5.7/clang_64/lib include/MainWindow.h -o moc_MainWindow.cpp
+	/Users/Vijin/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/Vijin/Qt/5.7/clang_64/mkspecs/macx-clang -I/Users/Vijin/ASE/Project/Flocker_live -I/Users/Vijin/ASE/Project/Flocker_live/include -I/usr/local/include -I/Users/Vijin/NGL/include -I/Users/Vijin/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/Vijin/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/Vijin/Qt/5.7/clang_64/lib include/MainWindow.h -o moc_MainWindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -587,7 +585,6 @@ main.o: src/main.cpp include/MainWindow.h \
 		include/WindowParams.h \
 		include/World.h \
 		include/Boid.h \
-		/Users/Vijin/NGL/include/ngl/Random.h \
 		include/Octree.h \
 		include/OctreePoint.h \
 		include/Obstacle.h \
@@ -641,7 +638,6 @@ Openglwidget.o: src/Openglwidget.cpp /Users/Vijin/Qt/5.7/clang_64/lib/QtGui.fram
 		include/WindowParams.h \
 		include/World.h \
 		include/Boid.h \
-		/Users/Vijin/NGL/include/ngl/Random.h \
 		include/Octree.h \
 		include/OctreePoint.h \
 		include/Obstacle.h \
@@ -651,7 +647,8 @@ Openglwidget.o: src/Openglwidget.cpp /Users/Vijin/Qt/5.7/clang_64/lib/QtGui.fram
 		/Users/Vijin/NGL/include/ngl/Shader.h \
 		/Users/Vijin/NGL/include/ngl/ShaderProgram.h \
 		/Users/Vijin/NGL/include/ngl/Util.h \
-		/Users/Vijin/NGL/include/ngl/Mat3.h
+		/Users/Vijin/NGL/include/ngl/Mat3.h \
+		/Users/Vijin/NGL/include/ngl/Random.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Openglwidget.o src/Openglwidget.cpp
 
 MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
@@ -686,7 +683,6 @@ MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		include/WindowParams.h \
 		include/World.h \
 		include/Boid.h \
-		/Users/Vijin/NGL/include/ngl/Random.h \
 		include/Octree.h \
 		include/OctreePoint.h \
 		include/Obstacle.h \
@@ -698,14 +694,14 @@ World.o: src/World.cpp include/World.h \
 		/Users/Vijin/NGL/include/ngl/Vec3.h \
 		/Users/Vijin/NGL/include/ngl/Types.h \
 		/Users/Vijin/NGL/include/ngl/glew.h \
-		/Users/Vijin/NGL/include/ngl/Random.h \
-		/Users/Vijin/NGL/include/ngl/Colour.h \
-		/Users/Vijin/NGL/include/ngl/Singleton.h \
+		include/Octree.h \
 		/Users/Vijin/NGL/include/ngl/Vec4.h \
 		/Users/Vijin/NGL/include/ngl/Vec2.h \
-		include/Octree.h \
 		include/OctreePoint.h \
-		include/Obstacle.h
+		include/Obstacle.h \
+		/Users/Vijin/NGL/include/ngl/Random.h \
+		/Users/Vijin/NGL/include/ngl/Colour.h \
+		/Users/Vijin/NGL/include/ngl/Singleton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o World.o src/World.cpp
 
 Octree.o: src/Octree.cpp include/Octree.h \

@@ -69,6 +69,11 @@ float Boid::getAvoidRadius()
 }
 
 //---------------------------SET ATTRIBUTES-----------------------------
+void Boid::setId(int _id)
+{
+    m_id = _id;
+}
+
 void Boid::setAlignmentWeight(float _alignmentWeight)
 {
     m_alignmentWeight = _alignmentWeight;
@@ -106,7 +111,7 @@ void Boid::setPredator(Boid *_predator)
 }
 void Boid::setNeighbours(Boid *_boid)
 {
-    m_neighbours.push_back(_boid);
+    if (_boid->getId() > 0) m_neighbours.push_back(_boid); //dont consider dead ones.
 }
 void Boid::setCentroid()
 {
@@ -407,15 +412,27 @@ void Boid::setSteering()
 //-------------------------------MOVEMENT----------------------------------
 void Boid::move()
 {
-    setSteering();
-    m_velocity += m_steering;
-    m_velocity.normalize();
-//    std::cout<<"cohesion :"<<m_cohesion.m_x<<'\n';
-//    std::cout<<"separation :"<<m_separation.m_x<<'\n';
-//    std::cout<<"alignment :"<<m_alignment.m_x<<'\n';
-
-    m_position += m_velocity;
-    rotate();
+    if (m_id > 0)
+    {
+        setSteering();
+        m_velocity += m_steering;
+        m_velocity.normalize();
+        m_position += m_velocity;
+        rotate();
+    }
+    else
+    {
+        m_velocity -= ngl::Vec3(0.0f,0.1f, 0.0f);
+        if (m_position.m_y >= -100)
+        {
+            m_position += m_velocity;
+            //rotate(); //nose-down
+        }
+        else
+        {
+            m_id = -1;
+        }
+    }
 }
 void Boid::rotate()
 {

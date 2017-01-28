@@ -234,6 +234,7 @@ public:
     void pathIntersectsSphere(ngl::Vec3 _obstaclePosition, float _obstacleSize);
     void setId(int _id);
 
+
 private:
 
     //--------------------ATTRIBUTES--------------------
@@ -278,6 +279,7 @@ private:
     bool m_isLeader; // flag for leader boid
     bool m_hasLeader;
     bool m_isPredator;
+    bool m_hasPredator;
 
     Boid *m_leader; //leader boid to follow
     Boid *m_predator; //predator boid to flee;

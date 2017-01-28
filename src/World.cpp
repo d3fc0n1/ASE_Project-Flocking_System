@@ -10,6 +10,7 @@ World::World(int _numBoids, bool _randomizeInitialPosition)
     }
     m_octree = new Octree(ngl::Vec3::zero(), 100, 4);
     m_obstacles.clear();
+    m_food.clear();
 }
 
 World::~World()
@@ -45,6 +46,32 @@ void World::dropBoid(int _id)
     m_flock[_id - 1].setId(0);
 }
 
+void World::addFood()
+{
+    Obstacle food(ngl::Random::instance()->getRandomVec3() * 100, 5.0f, "football");
+    m_food.push_back(food);
+}
+
+void World::removeFood()
+{
+    if (m_food.size() > 0)
+    {
+        m_food.pop_back();
+    }
+}
+
+bool World::foodEaten(ngl::Vec3 _foodPosition)
+{
+    for (size_t i = 0; i<m_flock.size() ; ++i)
+    {
+        if ((m_flock[i].getPosition() - _foodPosition).length() <= 2)
+        {
+            return true;
+            break;
+        }
+    }
+}
+
 void World::updateWorld()
 {
     updateOctree();
@@ -56,6 +83,17 @@ void World::updateWorld()
         {
             m_flock[i].pathIntersectsSphere(m_obstacles[j].getPosition(), m_obstacles[j].getSize() + 50);
         }
+
+
+        if (m_food.size() > 0)
+        {
+            m_flock[i].setPursuit(m_food[0].getPosition(), ngl::Vec3(0,0,0));
+            if (foodEaten(m_food[0].getPosition()))
+            {
+                m_food.erase(m_food.begin());
+            }
+        }
+
         m_flock[i].move();
     }
 }

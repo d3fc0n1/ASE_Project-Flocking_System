@@ -22,7 +22,11 @@ public slots:
     void updateViewRadius(int _value);
     void updateObstacleSize(int _size);
     void newFlock();
+    void addBoid();
+    void removeBoid();
     void addObstacle();
+    void addFood();
+    void removeFood();
     void removeObstacle();
     void toggleLeader(bool _leaderState);
     void setPredator();

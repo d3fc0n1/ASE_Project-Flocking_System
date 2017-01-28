@@ -21,6 +21,38 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="1">
+     <widget class="QPushButton" name="m_quit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Quit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item row="1" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
@@ -48,14 +80,24 @@
           <x>10</x>
           <y>10</y>
           <width>231</width>
-          <height>416</height>
+          <height>530</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="2" column="0" colspan="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item row="8" column="0" colspan="2">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Predator</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="label_5">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -63,163 +105,27 @@
               </size>
              </property>
              <property name="text">
-              <string>View Radius</string>
+              <string>Speed</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSlider" name="m_viewRadius">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="viewRadiusLabel">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="6" column="0">
-          <widget class="QPushButton" name="m_addBoid">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Add Boid</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QPushButton" name="m_removePredator">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Remove Predator</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="m_newFlockBoidCount">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>1000</number>
-           </property>
-           <property name="value">
-            <number>100</number>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
-          <widget class="QPushButton" name="m_addPrey">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Add Prey</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QPushButton" name="pushButton">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Remove Prey</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" colspan="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_2">
+            <widget class="QSlider" name="horizontalSlider">
              <property name="minimumSize">
               <size>
                <width>0</width>
                <height>40</height>
               </size>
              </property>
-             <property name="text">
-              <string>Max. Force</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="m_force">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>10</number>
-             </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="maxForceLabel">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
-         <item row="7" column="0">
-          <widget class="QPushButton" name="m_addPredator">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+         <item row="15" column="0" colspan="2">
+          <widget class="QCheckBox" name="m_leader">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -227,7 +133,20 @@
             </size>
            </property>
            <property name="text">
-            <string>Add Predator</string>
+            <string>Leader</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QPushButton" name="m_newFlock">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>New Flock</string>
            </property>
           </widget>
          </item>
@@ -248,7 +167,7 @@
               </size>
              </property>
              <property name="text">
-              <string>Max. Velocity</string>
+              <string>Alignment</string>
              </property>
             </widget>
            </item>
@@ -280,7 +199,36 @@
            </item>
           </layout>
          </item>
-         <item row="6" column="1">
+         <item row="0" column="0">
+          <widget class="QSpinBox" name="m_newFlockBoidCount">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="value">
+            <number>100</number>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Boid</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
           <widget class="QPushButton" name="m_removeBoid">
            <property name="minimumSize">
             <size>
@@ -288,13 +236,18 @@
              <height>40</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>18</pointsize>
+            </font>
+           </property>
            <property name="text">
-            <string>Remove Boid</string>
+            <string>-</string>
            </property>
           </widget>
          </item>
-         <item row="12" column="0" colspan="2">
-          <widget class="QCheckBox" name="m_leader">
+         <item row="11" column="0">
+          <widget class="QPushButton" name="m_addFood">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -302,12 +255,12 @@
             </size>
            </property>
            <property name="text">
-            <string>Leader</string>
+            <string>+</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QPushButton" name="m_newFlock">
+         <item row="9" column="1">
+          <widget class="QPushButton" name="m_removePredator">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -315,7 +268,45 @@
             </size>
            </property>
            <property name="text">
-            <string>New Flock</string>
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="QPushButton" name="m_addPredator">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QPushButton" name="m_addBoid">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>+</string>
            </property>
           </widget>
          </item>
@@ -335,6 +326,112 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Cohesion</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="m_viewRadius">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="viewRadiusLabel">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Separation</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="m_force">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>10</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="maxForceLabel">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="11" column="1">
+          <widget class="QPushButton" name="m_removeFood">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0" colspan="2">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Food</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QLabel" name="label_4">
@@ -350,7 +447,7 @@
          <string>Boid count : </string>
         </property>
        </widget>
-       <widget class="QLabel" name="m_boidCountStatus">
+       <widget class="QLabel" name="m_currentBoidCount">
         <property name="geometry">
          <rect>
           <x>90</x>
@@ -483,38 +580,6 @@
        </widget>
       </widget>
      </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="m_quit">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Quit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>

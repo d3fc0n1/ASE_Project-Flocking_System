@@ -107,6 +107,7 @@ void Boid::setPredator(Boid *_predator)
 {
     m_predator = _predator;
     m_hasLeader = false;
+    m_hasPredator = true;
     m_isLeader = false;
 }
 void Boid::setNeighbours(Boid *_boid)
@@ -217,6 +218,7 @@ void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
 //sets a target to seek - pass food position zero velocity
 //or flock centroid and average flock velocity for sheaperding
 {
+    m_pursuit = ngl::Vec3(0,0,0);
     ngl::Vec3 pursuitVector = _pursuePosition - m_position;
     int frames = pursuitVector.length() / m_maxVelocity;
     m_target = _pursuePosition + _pursueVelocity * frames;
@@ -351,7 +353,7 @@ void Boid::setSteering()
 
 //    m_alignment *= m_alignmentWeight;
 //    m_separation *= m_separationWeight;
-    m_cohesion *= 2;
+    m_cohesion *= 4;
 
     setAvoid();
 
@@ -389,18 +391,19 @@ void Boid::setSteering()
             }
             else
             {
-//                if (m_predator == nullptr)
-//                {
-//                    evade(m_predator);
-//                    m_steering += m_flee;
-//                }
-//                else
-//                {
+                if (m_hasPredator)
+                {
+                    evade(m_predator);
+                    m_steering += m_flee;
+                }
+                else
+                {
                     setWander();
-                    m_steering += m_wander;
-//                }
+                    m_steering += m_wander + m_pursuit;
+                }
             }
         }
+
     }
 
     if (m_steering.length() != 0)

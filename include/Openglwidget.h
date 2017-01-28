@@ -27,9 +27,12 @@ public slots:
     void toggleLeader(bool _leaderState);
     void setPredator();
     void addObstacle(std::string _obstacleType);
+    void addFood();
+    void removeFood();
     void removeObstacle();
     void updateObstacleSize(float _size);
-
+    void addBoid(bool _randomizeInitialPosition);
+    void removeBoid();
 protected:
     WinParams m_win;
     ngl::Camera m_cam;
@@ -47,9 +50,9 @@ protected:
     void setAlignment(float _alignment);
     void setCohesion(float _cohesion);
 
-    void addBoid(bool _randomizeInitialPosition);
 
-    void removeBoid();
+
+
 
 private:
     void keyPressEvent(QKeyEvent *_event);
@@ -64,6 +67,7 @@ private:
 
     ngl::Transformation m_tx;
     ngl::VAOPrimitives *m_obstacle;
+    ngl::VAOPrimitives *m_food;
     World *m_world;
     bool m_leader;
 };

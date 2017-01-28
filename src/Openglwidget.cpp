@@ -99,7 +99,7 @@ void OpenGLWidget::initializeGL()
     m_world = new World(500, true);
 
     m_obstacle = ngl::VAOPrimitives::instance();
-
+    m_food = ngl::VAOPrimitives::instance();
     ngl::Mat4 iv=m_cam.getViewMatrix();
     iv.transpose();
     iv=iv.inverse();
@@ -323,7 +323,15 @@ void OpenGLWidget::paintGL()
         m_obstacle->draw(m_world->m_obstacles[i].getShape());
     }
 
-
+    for(size_t i=0 ; i<m_world->m_food.size() ; ++i)
+    {
+        m_tx.reset();
+        m_tx.setPosition(m_world->m_food[i].getPosition());
+        float size = m_world->m_food[i].getSize();
+        m_tx.setScale(size, size, size);
+        loadMatrices();
+        m_food->draw(m_world->m_food[i].getShape());
+    }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -530,9 +538,21 @@ void OpenGLWidget::addObstacle(std::string _obstacleType)
     setFocus();
 }
 
+void OpenGLWidget::addFood()
+{
+    m_world->addFood();
+    setFocus();
+}
+
 void OpenGLWidget::removeObstacle()
 {
     m_world->removeObstacle();
+    setFocus();
+}
+
+void OpenGLWidget::removeFood()
+{
+    m_world->removeFood();
     setFocus();
 }
 

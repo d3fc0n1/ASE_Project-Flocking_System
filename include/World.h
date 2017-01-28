@@ -32,10 +32,12 @@ public:
     void updateOctree();
     std::vector<Boid> m_flock;
     std::vector<Obstacle> m_obstacles;
-    std::random_device m_rd;
+    std::vector<Obstacle> m_food;
     void setPredator();
     void removePredator();
-
+    void addFood();
+    void removeFood();
+    bool foodEaten(ngl::Vec3 _foodPosition);
     //void setPrey() //could be set to leader boid
 
 

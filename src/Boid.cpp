@@ -11,6 +11,8 @@ Boid::Boid(int _id)
     m_threatPosition.set(ngl::Vec3(0.0f, 0.0f, 0.0f));
     m_hasLeader=false;
     m_isLeader=false;
+    m_isPredator = false;
+    m_hasPredator = false;
     m_slowingRadius = 10.0f;
     m_viewRadius = 50.0f;
     m_separationRadius = 20.f;
@@ -25,47 +27,17 @@ Boid::Boid(int _id)
     m_wanderSphereDistance = 50.0f;
     m_maxVelocity = 5.0f;
     m_avoidWeight = 10.0f; //avoidance force weight
-    m_cohesionWeight = 1.5f; //cohesion weight
-    m_alignmentWeight = 1.5f; //alignment weight
-    m_separationWeight = 50.0f;
+    m_cohesionWeight = 4.0f; //cohesion weight
+    m_alignmentWeight = 3.0f; //alignment weight
+    m_separationWeight = 1.0f;
+    m_leader = nullptr;
+    m_predator = nullptr;
 }
 
-//---------------------------GET ATTRIBUTES-----------------------------
-int Boid::getId()
+Boid::~Boid()
 {
-    return m_id;
-}
-ngl::Vec3 Boid::getPosition()
-{
-    return m_position;
-}
-ngl::Vec3 Boid::getRotation()
-{
-    return ngl::Vec3(m_pitch, m_yaw, 0);
-}
-ngl::Vec3 Boid::getVelocity()
-{
-    return m_velocity;
-}
-bool Boid::isLeader()
-{
-    return m_isLeader;
-}
-bool Boid::isPredator()
-{
-    return m_isPredator;
-}
-int Boid::getNeighbourSize()
-{
-    return m_neighbours.size();
-}
-float Boid::getViewRadius()
-{
-    return m_viewRadius;
-}
-float Boid::getAvoidRadius()
-{
-    return m_avoidRadius;
+    delete m_leader;
+    delete m_predator;
 }
 
 //---------------------------SET ATTRIBUTES-----------------------------
@@ -73,7 +45,10 @@ void Boid::setId(int _id)
 {
     m_id = _id;
 }
-
+void Boid::setSpeed(float _speed)
+{
+    //m_speed = _speed;
+}
 void Boid::setAlignmentWeight(float _alignmentWeight)
 {
     m_alignmentWeight = _alignmentWeight;
@@ -154,7 +129,7 @@ void Boid::makePredator()
   m_leader = 0;
 }
 
-//---------------------------FLOCKING RULES-----------------------------set all normalized
+//---------------------------FLOCKING RULES----------------------------------
 void Boid::setCohesion() //push to flock center using average flock position
 {
     setCentroid();
@@ -216,7 +191,7 @@ void Boid::setSeparation() //check for distance from neighbour and move away if 
 //-------------------------STEERING BEHVIOURS---------------------------
 void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
 //sets a target to seek - pass food position zero velocity
-//or flock centroid and average flock velocity for sheaperding
+//or flock centroid and average flock velocity for predator
 {
     m_pursuit = ngl::Vec3(0,0,0);
     ngl::Vec3 pursuitVector = _pursuePosition - m_position;
@@ -236,8 +211,14 @@ void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
     {
         desiredVelocity *= m_maxVelocity;
     }
-    m_pursuit = desiredVelocity - m_velocity; //CHECK THIS - INCLUDING SEEK?
+    m_pursuit = desiredVelocity - m_velocity;
 }
+
+void Boid::resetPursuit()
+{
+    m_pursuit = ngl::Vec3::zero();
+}
+
 void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
 {
     if ((m_position - _fleePosition).length() < 30)
@@ -273,7 +254,7 @@ void Boid::setWander() //sets m_wander
 
     m_wander = sphereCenter + displacement;
 }
-void Boid::setAvoid() //call for every neighbour, pass in position and avoidradius
+void Boid::setAvoid() //call for every neighbour
 {
     for(size_t i=0; i<m_neighbours.size();++i)
     {
@@ -295,7 +276,6 @@ void Boid::setAvoid() //call for every neighbour, pass in position and avoidradi
         {
                 m_avoid.normalize();
         }
-        //m_avoid *= m_avoidWeight;
     }
     else
     {
@@ -344,18 +324,19 @@ void Boid::setFollow() //sets m_follow
 }
 void Boid::setSteering()
 {
-    //std::cout<<"Neighbour size : "<<m_neighbours.size()<<'\n';
     m_flee.set(0,0,0);
     setCohesion();
     setAlignment();
     setSeparation();
     fleeWalls();
 
-//    m_alignment *= m_alignmentWeight;
-//    m_separation *= m_separationWeight;
-    m_cohesion *= 4;
+    m_alignment *= m_alignmentWeight;
+    m_separation *= m_separationWeight;
+    m_cohesion *= m_cohesionWeight;
 
     setAvoid();
+
+    m_avoid *= m_avoidWeight;
 
     //if (m_predator != 0) evade(m_predator);
     m_steering = m_flee + m_avoid; //basic rules, common for all.
@@ -408,9 +389,6 @@ void Boid::setSteering()
 
     if (m_steering.length() != 0)
         m_steering.normalize();
-
-    //if predator exists, Evade
-    //if moving target exists, pursue
 }
 //-------------------------------MOVEMENT----------------------------------
 void Boid::move()

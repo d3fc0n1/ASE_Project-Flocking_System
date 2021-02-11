@@ -40,8 +40,3 @@ INCLUDEPATH +=./include
 
 OTHER_FILES+= shaders/*.glsl \
 
-NGLPATH=$$(NGLDIR)
-isEmpty(NGLPATH){ # note brace must be here
-        message("including $HOME/NGL")
-        include($(HOME)/NGL/UseNGL.pri)
-}

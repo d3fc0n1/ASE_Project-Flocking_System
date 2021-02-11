@@ -4,35 +4,35 @@
 #include <ngl/Random.h>
 //-------------------------------CTOR----------------------------------
 Boid::Boid(int _id)
-{
-    m_id=_id;
-    m_flee.set(ngl::Vec3(0.0f, 0.0f, 0.0f));
-    m_centroid.set(ngl::Vec3(0.0f, 0.0f, 0.0f));
-    m_threatPosition.set(ngl::Vec3(0.0f, 0.0f, 0.0f));
-    m_hasLeader=false;
-    m_isLeader=false;
-    m_isPredator = false;
-    m_hasPredator = false;
-    m_slowingRadius = 10.0f;
-    m_viewRadius = 50.0f;
-    m_separationRadius = 20.f;
-    m_leaderFollowDistance = 5.0f;
-    m_maxSeeAhead = 30.0f;
-    m_avoidRadius = 10.0f;
-    m_wanderAzimuthChange = 4.0f;
-    m_wanderAngleChange = 2.0f;
-    m_wanderAzimuth = ngl::Random::instance()->randomNumber() * 5;
-    m_wanderAngle = ngl::Random::instance()->randomNumber() * 10;
-    m_wanderSphereRadius = 2.0f;
-    m_wanderSphereDistance = 50.0f;
-    m_maxVelocity = 5.0f;
-    m_avoidWeight = 10.0f; //avoidance force weight
-    m_cohesionWeight = 4.0f; //cohesion weight
-    m_alignmentWeight = 3.0f; //alignment weight
-    m_separationWeight = 1.0f;
-    m_leader = nullptr;
-    m_predator = nullptr;
-}
+    :
+    m_id(_id),
+    m_flee(glm::vec3(0.0f, 0.0f, 0.0f),
+    m_centroid(glm::vec3(0.0f, 0.0f, 0.0f),
+    m_threatPosition(glm::vec3(0.0f, 0.0f, 0.0f),
+    m_hasLeader(false),
+    m_isLeader(false),
+    m_isPredator(false),
+    m_hasPredator(false),
+    m_slowingRadius(10.0f),
+    m_viewRadius(50.0f),
+    m_separationRadius(20.f),
+    m_leaderFollowDistance(5.0f),
+    m_maxSeeAhead(30.0f),
+    m_avoidRadius(10.0f),
+    m_wanderAzimuthChange(4.0f),
+    m_wanderAngleChange(2.0f),
+    m_wanderAzimuth(ngl::Random::instance()->randomNumber() * 5),
+    m_wanderAngle(ngl::Random::instance()->randomNumber() * 10),
+    m_wanderSphereRadius(2.0f),
+    m_wanderSphereDistance(50.0f),
+    m_maxVelocity(5.0f),
+    m_avoidWeight(10.0f), //avoidance force weight
+    m_cohesionWeight(4.0f), //cohesion weight
+    m_alignmentWeight(3.0f), //alignment weight
+    m_separationWeight(1.0f),
+    m_leader(nullptr),
+    m_predator(nullptr)
+{}
 
 Boid::~Boid()
 {
@@ -65,11 +65,11 @@ void Boid::setAvoidWeight(float _avoidWeight)
 {
     m_avoidWeight = _avoidWeight;
 }
-void Boid::setPosition(ngl::Vec3 _position)
+void Boid::setPosition(glm::vec3 _position)
 {
     m_position.set(_position);
 }
-void Boid::setVelocity(ngl::Vec3 _velocity)
+void Boid::setVelocity(glm::vec3 _velocity)
 {
     m_velocity.set(_velocity);
 }
@@ -171,8 +171,8 @@ void Boid::setSeparation() //check for distance from neighbour and move away if 
         {
             if ((m_neighbours[i]->getPosition() - m_position).length() > m_separationRadius)
             {
-                ngl::Vec3 neighbourPosition(m_neighbours[i]->getPosition());
-                ngl::Vec3 targetPosition = m_position - neighbourPosition;
+                glm::vec3 neighbourPosition(m_neighbours[i]->getPosition());
+                glm::vec3 targetPosition = m_position - neighbourPosition;
                 m_separation += targetPosition;
             }
         }
@@ -189,17 +189,17 @@ void Boid::setSeparation() //check for distance from neighbour and move away if 
 }
 
 //-------------------------STEERING BEHVIOURS---------------------------
-void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
+void Boid::setPursuit(glm::vec3 _pursuePosition, glm::vec3 _pursueVelocity)
 //sets a target to seek - pass food position zero velocity
 //or flock centroid and average flock velocity for predator
 {
-    m_pursuit = ngl::Vec3(0,0,0);
-    ngl::Vec3 pursuitVector = _pursuePosition - m_position;
+    m_pursuit = glm::vec3(0,0,0);
+    glm::vec3 pursuitVector = _pursuePosition - m_position;
     int frames = pursuitVector.length() / m_maxVelocity;
     m_target = _pursuePosition + _pursueVelocity * frames;
 
     //apply smooth arrival
-    ngl::Vec3 desiredVelocity = m_target - m_position;
+    glm::vec3 desiredVelocity = m_target - m_position;
     float distance = desiredVelocity.length();
     if (distance != 0) desiredVelocity.normalize();
 
@@ -216,10 +216,10 @@ void Boid::setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity)
 
 void Boid::resetPursuit()
 {
-    m_pursuit = ngl::Vec3::zero();
+    m_pursuit = glm::vec3::zero();
 }
 
-void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
+void Boid::setFlee(glm::vec3 _fleePosition) //needs m_target to function
 {
     if ((m_position - _fleePosition).length() < 30)
     {
@@ -229,21 +229,21 @@ void Boid::setFlee(ngl::Vec3 _fleePosition) //needs m_target to function
 }
 void Boid::evade(Boid *_boid) //sets a target for fleeing- pass predator boid
 {
-    ngl::Vec3 distance = _boid->getPosition() - m_position;
+    glm::vec3 distance = _boid->getPosition() - m_position;
     int frames = distance.length() / m_maxVelocity;
     m_target = _boid->getPosition() + _boid->getVelocity() * frames;
     setFlee(_boid->getPosition());
 }
 void Boid::setWander() //sets m_wander
 {
-    ngl::Vec3 sphereCenter = m_velocity;
+    glm::vec3 sphereCenter = m_velocity;
     if (sphereCenter.length() !=0)
     {
         sphereCenter.normalize();
     }
     sphereCenter *= m_wanderSphereDistance;
 
-    ngl::Vec3 displacement;
+    glm::vec3 displacement;
 
     displacement.m_x = m_wanderSphereRadius * cos(m_wanderAngle) * sin(m_wanderAzimuth);
     displacement.m_y = m_wanderSphereRadius * sin(m_wanderAngle) * sin(m_wanderAzimuth);
@@ -265,11 +265,11 @@ void Boid::setAvoid() //call for every neighbour
     {
         m_velocity.normalize();
     }
-    m_avoid=ngl::Vec3(0,0,0);
-    ngl::Vec3 ahead = m_position + m_velocity * m_maxSeeAhead;
+    m_avoid=glm::vec3(0,0,0);
+    glm::vec3 ahead = m_position + m_velocity * m_maxSeeAhead;
 
 
-    if (m_threatPosition != ngl::Vec3(0.0f,0.0f,0.0f))
+    if (m_threatPosition != glm::vec3(0.0f,0.0f,0.0f))
     {
         m_avoid = ahead - m_threatPosition;
         if (m_avoid.length() != 0)
@@ -283,24 +283,24 @@ void Boid::setAvoid() //call for every neighbour
     }
     m_threatPosition.set(0.0f,0.0f,0.0f); //reset threat position every iternation
 }
-void Boid::pathIntersectsSphere(ngl::Vec3 _obstaclePosition, float _obstacleSize)
+void Boid::pathIntersectsSphere(glm::vec3 _obstaclePosition, float _obstacleSize)
 {
 
-    ngl::Vec3 ahead(m_position + m_velocity * m_maxSeeAhead);
-    ngl::Vec3 halfAhead = ahead * 0.5;
+    glm::vec3 ahead(m_position + m_velocity * m_maxSeeAhead);
+    glm::vec3 halfAhead = ahead * 0.5;
 
     bool collision = ((ahead - _obstaclePosition).length() <= _obstacleSize || (halfAhead - _obstaclePosition).length() <= _obstacleSize || (_obstaclePosition - m_position).length() <= _obstacleSize);
-    if (collision && (m_threatPosition == ngl::Vec3(0.0f,0.0f,0.0f) || ((_obstaclePosition - m_position).length() <  (m_threatPosition - m_position).length())))
+    if (collision && (m_threatPosition == glm::vec3(0.0f,0.0f,0.0f) || ((_obstaclePosition - m_position).length() <  (m_threatPosition - m_position).length())))
     {
         m_threatPosition = _obstaclePosition;
     }
 }
 void Boid::setFollow() //sets m_follow
 {
-    ngl::Vec3 leaderVelocity = m_leader->getVelocity();
+    glm::vec3 leaderVelocity = m_leader->getVelocity();
     leaderVelocity.normalize();
-    ngl::Vec3 ahead = m_leader->getPosition() + leaderVelocity * m_leaderFollowDistance;
-    ngl::Vec3 behind = m_leader->getPosition() - leaderVelocity * m_leaderFollowDistance;
+    glm::vec3 ahead = m_leader->getPosition() + leaderVelocity * m_leaderFollowDistance;
+    glm::vec3 behind = m_leader->getPosition() - leaderVelocity * m_leaderFollowDistance;
 
     if ((m_position - ahead).length() <= m_viewRadius || (m_leader->getPosition() - m_position).length() <= m_viewRadius)
     {
@@ -309,7 +309,7 @@ void Boid::setFollow() //sets m_follow
     }
 
     // apply smooth arrival
-    ngl::Vec3 desiredVelocity = behind - m_position;
+    glm::vec3 desiredVelocity = behind - m_position;
     float distance = desiredVelocity.length();
     if (distance <= m_slowingRadius)
     {
@@ -361,7 +361,7 @@ void Boid::setSteering()
             {
                 if (m_neighbours.size() > 0)
                 {
-                    ngl::Vec3 flockVelocity;
+                    glm::vec3 flockVelocity;
                     for (size_t i = 0; i < m_neighbours.size(); ++i)
                     {
                         flockVelocity += m_neighbours[i]->getVelocity();
@@ -403,7 +403,7 @@ void Boid::move()
     }
     else
     {
-        m_velocity -= ngl::Vec3(0.0f,0.1f, 0.0f);
+        m_velocity -= glm::vec3(0.0f,0.1f, 0.0f);
         if (m_position.m_y >= -100)
         {
             m_position += m_velocity;

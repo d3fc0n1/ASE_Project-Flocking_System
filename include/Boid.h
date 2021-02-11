@@ -13,7 +13,7 @@
 #ifndef BOID_H
 #define BOID_H
 
-#include <ngl/Vec3.h>
+#include <glm/vec3.hpp>
 #include <vector>
 
 class Boid
@@ -33,17 +33,17 @@ public:
     /// @brief gets the current velocity of the boid
     /// @return ngl::Vec3 m_velocity data member variable
     //----------------------------------------------------------------------------------------------------------------------
-    ngl::Vec3 getVelocity();
+    glm::vec3 getVelocity();
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief gets the current position of the boid
     /// @return ngl::Vec3 m_position data member variable
     //----------------------------------------------------------------------------------------------------------------------
-    ngl::Vec3 getPosition();
+    glm::vec3 getPosition();
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief gets the local axis rotation of the boid
     /// @return returns ngl::Vec3 using x=pitch, y=yaw and z=roll
     //----------------------------------------------------------------------------------------------------------------------
-    ngl::Vec3 getRotation();
+    glm::vec3 getRotation();
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief gets the view radius of the boid
     /// @return float m_viewRadius data member variable
@@ -98,13 +98,13 @@ public:
     /// @param
     /// @return
     //----------------------------------------------------------------------------------------------------------------------
-    void setPosition(ngl::Vec3 _position);
+    void setPosition(glm::vec3 _position);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief
     /// @param
     /// @return
     //----------------------------------------------------------------------------------------------------------------------
-    void setVelocity(ngl::Vec3 _velocity);
+    void setVelocity(glm::vec3 _velocity);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief
     /// @param
@@ -173,13 +173,13 @@ public:
     /// @param
     /// @return
     //----------------------------------------------------------------------------------------------------------------------
-    void setPursuit(ngl::Vec3 _pursuePosition, ngl::Vec3 _pursueVelocity);
+    void setPursuit(glm::vec3 _pursuePosition, glm::vec3 _pursueVelocity);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief
     /// @param
     /// @return
     //----------------------------------------------------------------------------------------------------------------------
-    void setFlee(ngl::Vec3 _fleePosition);
+    void setFlee(glm::vec3 _fleePosition);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief
     /// @param
@@ -231,7 +231,7 @@ public:
     /// @param
     /// @return
     //----------------------------------------------------------------------------------------------------------------------
-    void pathIntersectsSphere(ngl::Vec3 _obstaclePosition, float _obstacleSize);
+    void pathIntersectsSphere(glm::vec3 _obstaclePosition, float _obstacleSize);
     void setId(int _id);
 
 
@@ -239,20 +239,20 @@ private:
 
     //--------------------ATTRIBUTES--------------------
     int m_id; //ID of boid
-    ngl::Vec3 m_position; //position vector
-    ngl::Vec3 m_velocity; //velocity vector
-    ngl::Vec3 m_centroid; //local flock center
-    ngl::Vec3 m_target; // target vector
-    ngl::Vec3 m_separation; //separation force vector
-    ngl::Vec3 m_alignment; //alignment force vector
-    ngl::Vec3 m_cohesion; //cohesion force vector
-    ngl::Vec3 m_pursuit; //pursuit vector
-    ngl::Vec3 m_flee; //flee vector
-    ngl::Vec3 m_wander; //wander vector
-    ngl::Vec3 m_avoid;//collision avoidance vector;
-    ngl::Vec3 m_follow;//leader following vector
-    ngl::Vec3 m_threatPosition;//position vector of the most threatening object in path- obstacle or other boids.
-    ngl::Vec3 m_steering; //sum of all steering vectors
+    glm::vec3 m_position; //position vector
+    glm::vec3 m_velocity; //velocity vector
+    glm::vec3 m_centroid; //local flock center
+    glm::vec3 m_target; // target vector
+    glm::vec3 m_separation; //separation force vector
+    glm::vec3 m_alignment; //alignment force vector
+    glm::vec3 m_cohesion; //cohesion force vector
+    glm::vec3 m_pursuit; //pursuit vector
+    glm::vec3 m_flee; //flee vector
+    glm::vec3 m_wander; //wander vector
+    glm::vec3 m_avoid;//collision avoidance vector;
+    glm::vec3 m_follow;//leader following vector
+    glm::vec3 m_threatPosition;//position vector of the most threatening object in path- obstacle or other boids.
+    glm::vec3 m_steering; //sum of all steering vectors
 
     float m_slowingRadius; //slowing radius
     float m_maxVelocity; //multiplier for maximum velocity

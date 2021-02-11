@@ -44,7 +44,7 @@ public:
 private:
     Octree *m_octree;
     OctreePoint *m_octreePoints;
-    ngl::Vec3 m_centroid;
+    glm::vec3 m_centroid;
     //Predator *predator; later
 };
 
